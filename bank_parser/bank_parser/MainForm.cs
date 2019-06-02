@@ -16,5 +16,10 @@ namespace bank_parser
         {
             InitializeComponent();
         }
+
+        private void metroBack_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }
