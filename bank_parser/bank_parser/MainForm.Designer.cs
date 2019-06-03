@@ -47,7 +47,7 @@
             this.metroTabControl1.Controls.Add(this.tabPage3);
             this.metroTabControl1.Controls.Add(this.tabPage4);
             this.metroTabControl1.Controls.Add(this.tabPage5);
-            this.metroTabControl1.Location = new System.Drawing.Point(164, 12);
+            this.metroTabControl1.Location = new System.Drawing.Point(168, 12);
             this.metroTabControl1.Name = "metroTabControl1";
             this.metroTabControl1.SelectedIndex = 0;
             this.metroTabControl1.Size = new System.Drawing.Size(618, 417);
@@ -108,7 +108,7 @@
             // 
             this.metroLabel1.Location = new System.Drawing.Point(12, 12);
             this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(150, 35);
+            this.metroLabel1.Size = new System.Drawing.Size(156, 35);
             this.metroLabel1.TabIndex = 3;
             this.metroLabel1.Text = "Список банков";
             this.metroLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

@@ -28,7 +28,20 @@ namespace bank_parser
             metroPanel1.AutoScroll = true;
             add = new AddButtonToPanel(metroPanel1);//объект класса для добвления кнопок
             addButtons(add); //вызов метода добавления кнопок на панель
+            addDataGrids();
+        }
 
+        public void addDataGrids()
+        {
+            for (int i = 0; i < metroTabControl1.TabCount-1; i++)
+            {
+                metroTabControl1.TabPages[i].Controls.Add(new DataGridView()
+                {
+                    Name = metroTabControl1.TabPages[i].Text,
+                    Dock = DockStyle.Fill
+                });
+            }
+            
         }
 
         public void addButtons(AddButtonToPanel add) //метод, добавляющий кнопки
