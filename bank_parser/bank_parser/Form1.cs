@@ -28,7 +28,7 @@ namespace bank_parser
         {
             if (!CheckForInternetConnection())
             {
-                MessageBox.Show("Отсутствует интернет соединение, пожалуйста подключитесь к интернету!", "Отсутствует интернет соединение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MetroFramework.MetroMessageBox.Show(this, "Отсутствует интернет соединение, пожалуйста проверьте подключение к интернету!", "Отсутствует интернет соединение", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else if(CheckForInternetConnection())
             {

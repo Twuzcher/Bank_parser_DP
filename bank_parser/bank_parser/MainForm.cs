@@ -19,23 +19,25 @@ namespace bank_parser
         public MainForm()
         {
             InitializeComponent();
-            int i = 1;
-            metroPanel1.Padding = new Padding(0, 0, 0, 20);
-            MetroButton button1 = new MetroButton();
-            button1.Text = "hi1";
-            button1.Height = 37;
-            button1.Width = 150;
-            MetroButton button2 = new MetroButton();
-            i += 37;
-            button2.Text = "hi2";
-            button2.Height = 37;
-            button2.Width = 150;
-            metroPanel1.Controls.Add(button1);
-            metroPanel1.Controls.Add(button2);
+            int xlocation = 5;
+            metroPanel1.AutoScroll = true;
+            for (int i = 1; i <= 30; i++)
+            {
+                MetroButton newButton = new MetroButton();
+                {
+                    newButton.Name = string.Format("Button{0}", i);
+                    newButton.Text = string.Format("Button {0}", i);
+                    newButton.Location = new System.Drawing.Point(2, xlocation);
+                    newButton.Size = new System.Drawing.Size(127, 35);
+                    //newButton.Click += btn_msg;
+                    metroPanel1.Controls.Add(newButton);
+                }
+                xlocation = xlocation + 35;
+            }
 
-
-            
         }
+
+
 
         private void metroBack_Click(object sender, EventArgs e)
         {
