@@ -8,10 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
+using MetroFramework.Forms;
 
 namespace bank_parser
 {
-    public partial class Form1 : Form
+    public partial class Form1 : MetroForm
     {
         public Form1()
         {
