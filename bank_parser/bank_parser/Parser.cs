@@ -15,6 +15,7 @@ namespace bank_parser
         public Parser() { }
         public List<Functions.Bank> getBanksNames()
         {
+            
             List<Functions.Bank> banks = new List<Functions.Bank>();
 
             using (var request = new HttpRequest())
@@ -25,7 +26,7 @@ namespace bank_parser
                 List<string> nameRus = new List<string>();
                 List<string> nameEng = new List<string>();
 
-                foreach (var item in doc.DocumentNode.QuerySelectorAll("table.rates-table-sort>tbody>tr"))
+                foreach (var item in doc.DocumentNode.QuerySelectorAll("table.rates-table-sort>tbody>tr"))//сам парсер, парсит по селекторам
                 {
                     string str = item.QuerySelector("td>a>span").InnerText;
                     nameRus.Add(str);
@@ -36,10 +37,6 @@ namespace bank_parser
                     string value = t.ToString().Substring(6);
                     nameEng.Add(value);
                 }
-                //for (int i = 0; i < nameRus.Count; i++)
-                //{
-                //    Console.WriteLine("Name in russian: " + nameRus[i] + "; Name in english: " + nameEng[i]);
-                //}
                 for (int i = 0; i < nameEng.Count; i++)
                 {
                     banks.Add(new Functions.Bank(nameRus[i], nameEng[i]));

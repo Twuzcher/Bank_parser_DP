@@ -35,14 +35,14 @@ namespace bank_parser
         {
             try
             {
-                for (int i = 1; i <= banks.Count; i++)
+                for (int i = 0; i < banks.Count; i++)
                 {
                     add.AddButton(banks[i].getName(), banks[i].getNameId(), btn_action);
                 }
             }
             catch (Exception e)
             {
-
+                MetroFramework.MetroMessageBox.Show(this, "Не удалось получить информацию о банках, проверьте интернет соединение и попробуйте перезапустить программу!", "Проверьте интернет соединение!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
