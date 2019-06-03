@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace bank_parser
 {
-    class AddButtonToPanel
+    public class AddButtonToPanel//добавление кнопок на панель
     {
         int xlocation;
         MetroFramework.Controls.MetroPanel metro;
@@ -22,7 +22,7 @@ namespace bank_parser
             xlocation = 1;
         }
 
-        public void AddButton(string text, string name, EventHandler method)
+        public void AddButton(string text, string name, EventHandler method)//само добавление
         {
             MetroFramework.Controls.MetroButton newButton = new MetroFramework.Controls.MetroButton();
             {

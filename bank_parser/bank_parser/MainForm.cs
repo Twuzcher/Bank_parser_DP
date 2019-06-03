@@ -16,27 +16,40 @@ namespace bank_parser
 {
     public partial class MainForm : MetroForm
     {
+        List<Functions.Bank> banks;
+        Parser parser;
+        AddButtonToPanel add;
 
         public MainForm()
         {
             InitializeComponent();
+            parser = new Parser();
+            banks = parser.getBanksNames();
             metroPanel1.AutoScroll = true;
-            addButtons();
+            add = new AddButtonToPanel(metroPanel1);//объект класса для добвления кнопок
+            addButtons(add); //вызов метода добавления кнопок на панель
 
         }
 
-        public void addButtons()
+        public void addButtons(AddButtonToPanel add) //метод, добавляющий кнопки
         {
-            AddButtonToPanel add = new AddButtonToPanel(metroPanel1);
-            for (int i = 1; i <= 30; i++)
+            try
             {
-                add.AddButton("Name " + i, "Name" + i, btn_action);
+                for (int i = 1; i <= banks.Count; i++)
+                {
+                    add.AddButton(banks[i].getName(), banks[i].getNameId(), btn_action);
+                }
+            }
+            catch (Exception e)
+            {
+
             }
         }
 
-        public void btn_action(object sender, EventArgs e)
+        public void btn_action(object sender, EventArgs e)//метод события по нажатию на добавленную кнопку
         {
-            MetroFramework.MetroMessageBox.Show(this, "Ky", "Ku", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MetroFramework.MetroMessageBox.Show(this, ((MetroButton)sender).Name, "Ku", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            
         }
 
         private void metroBack_Click(object sender, EventArgs e)
