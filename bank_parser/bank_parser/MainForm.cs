@@ -16,28 +16,28 @@ namespace bank_parser
 {
     public partial class MainForm : MetroForm
     {
+
         public MainForm()
         {
             InitializeComponent();
-            int xlocation = 5;
             metroPanel1.AutoScroll = true;
-            for (int i = 1; i <= 30; i++)
-            {
-                MetroButton newButton = new MetroButton();
-                {
-                    newButton.Name = string.Format("Button{0}", i);
-                    newButton.Text = string.Format("Button {0}", i);
-                    newButton.Location = new System.Drawing.Point(2, xlocation);
-                    newButton.Size = new System.Drawing.Size(127, 35);
-                    //newButton.Click += btn_msg;
-                    metroPanel1.Controls.Add(newButton);
-                }
-                xlocation = xlocation + 35;
-            }
+            addButtons();
 
         }
 
+        public void addButtons()
+        {
+            AddButtonToPanel add = new AddButtonToPanel(metroPanel1);
+            for (int i = 1; i <= 30; i++)
+            {
+                add.AddButton("Name " + i, "Name" + i, btn_action);
+            }
+        }
 
+        public void btn_action(object sender, EventArgs e)
+        {
+            MetroFramework.MetroMessageBox.Show(this, "Ky", "Ku", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
 
         private void metroBack_Click(object sender, EventArgs e)
         {

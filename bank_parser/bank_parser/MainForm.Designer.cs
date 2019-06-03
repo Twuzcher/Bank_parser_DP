@@ -96,9 +96,9 @@
             // 
             // metroBack
             // 
-            this.metroBack.Location = new System.Drawing.Point(12, 388);
+            this.metroBack.Location = new System.Drawing.Point(12, 372);
             this.metroBack.Name = "metroBack";
-            this.metroBack.Size = new System.Drawing.Size(150, 37);
+            this.metroBack.Size = new System.Drawing.Size(156, 53);
             this.metroBack.TabIndex = 2;
             this.metroBack.Text = "Назад";
             this.metroBack.UseSelectable = true;
@@ -119,9 +119,9 @@
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(12, 51);
+            this.metroPanel1.Location = new System.Drawing.Point(12, 50);
             this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(150, 331);
+            this.metroPanel1.Size = new System.Drawing.Size(156, 323);
             this.metroPanel1.TabIndex = 4;
             this.metroPanel1.VerticalScrollbar = true;
             this.metroPanel1.VerticalScrollbarBarColor = true;
