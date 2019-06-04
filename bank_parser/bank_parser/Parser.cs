@@ -25,6 +25,9 @@ namespace bank_parser
             parsBanksNames();
             parsBanksDepartaments();
             parsBankCurrency();
+            parsBankCreditsAndContribution("vklady");
+            parsBankCreditsAndContribution("kredity");
+
         }
 
         public async void SqlConnection() //подключение к бд
@@ -257,6 +260,121 @@ namespace bank_parser
                 str = "insert into Сurrency (NameCur, BuyCur, SellCur, NB_RB, UpdateTime, IndexB) values (N'" + list[0] + "', N'" + list[1] + "', N'" + list[2] + "', N'" + list[3] + "', N'" + list[4] + "', N'" + getBankId(list[5]) + "')";
                 ExecuteQuery(str);
 
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
+        public void parsBankCreditsAndContribution(string type)
+        {
+            using (var request = new HttpRequest())
+            {
+                
+                HtmlDocument doc = new HtmlDocument();         
+                int i = 0;
+                //List<string> types = new List<string>();
+                List<string> values = new List<string>();
+                string str = String.Empty;
+                string name = String.Empty;
+
+                for (int b = 0; b < banks.Count; b++)
+                {
+                    string content = request.Get("myfin.by/bank/" + banks[b].getNameId() + "/" + type).ToString();
+
+                    doc.LoadHtml(content);
+
+                    foreach (var item in doc.DocumentNode.QuerySelectorAll("div.content_i>div.credit-rates>div.table-responsive>table>tbody>tr"))
+                    {
+                        foreach (var row in item.QuerySelectorAll("td"))
+                        {
+                            str = row.InnerText;
+                            i++;
+                        }
+                        if (i == 1)
+                        {
+                            //types.Add(str);
+
+                            i = 0;
+                        }
+                        else if (i == 6)
+                        {
+                            i = 0;
+                            foreach (var row in item.QuerySelectorAll("td"))
+                            {
+                                i++;
+                                if (i > 5)
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    if (i == 1)
+                                    {
+                                        name = row.InnerText;
+                                    }
+                                    str = row.InnerText;
+                                    str = str.Replace("&nbsp;", " ");
+                                    values.Add(str);
+                                }
+                            }
+
+                            values.Add(banks[b].getNameId());
+                            addCreditsAndContributions(values, type);
+                            values.Clear();
+                        }
+                        else if (i == 5)
+                        {
+                            i = 0;
+                            values.Add(name);
+                            foreach (var row in item.QuerySelectorAll("td"))
+                            {
+                                i++;
+                                if (i > 4)
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    str = row.InnerText;
+                                    str = str.Replace("&nbsp;", " ");
+                                    values.Add(str);
+                                }
+                            }
+
+                            values.Add(banks[b].getNameId());
+                            addCreditsAndContributions(values, type);
+                            values.Clear();
+
+                        }
+                        i = 0;
+                    }
+
+                    //foreach (string s in types)
+                    //{
+                    //    Console.WriteLine(s);
+                    //}
+                    Thread.Sleep(new Random().Next(60, 200));
+
+                }
+            }
+        }
+
+        public void addCreditsAndContributions(List<string> list, string type)
+        {
+            try
+            {
+                if (type == "kredity")
+                {
+                    str = "insert into Credit (NameCr, Valuta, Summa, Srok, Protsent, IndexB) values (N'" + list[0] + "', N'" + list[1] + "', N'" + list[2] + "', N'" + list[3] + "', N'" + list[4] + "', N'" + getBankId(list[5]) + "')";
+                }
+                else if (type == "vklady")
+                {
+                    str = "insert into Contribution (NameC, Valuta, Summa, Srok, Protsent, IndexB) values (N'" + list[0] + "', N'" + list[1] + "', N'" + list[2] + "', N'" + list[3] + "', N'" + list[4] + "', N'" + getBankId(list[5]) + "')";
+                }
+                ExecuteQuery(str);
+                
             }
             catch (Exception e)
             {
