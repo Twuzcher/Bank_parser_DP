@@ -61,6 +61,7 @@ constraint IndexBCur_FK foreign key(IndexB) references Bank(IndexB)
 
 select * from Bank
 select * from Departament
+select * from Сurrency
 drop table Bank
 drop table Сurrency
 drop table Departament
