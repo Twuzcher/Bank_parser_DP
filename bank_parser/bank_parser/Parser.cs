@@ -24,6 +24,7 @@ namespace bank_parser
             banks = new List<Functions.Bank>();
             parsBanksNames();
             parsBanksDepartaments();
+            parsBankCurrency();
         }
 
         public async void SqlConnection() //подключение к бд
@@ -212,6 +213,54 @@ namespace bank_parser
                 da.Fill(table);
                 name = table.Rows[0][0].ToString();
                 return name;
+            }
+        }
+
+        public void parsBankCurrency()
+        {
+            List<string> curr = new List<string>();
+            using (var request = new HttpRequest())
+            {
+                for (int b = 0; b < banks.Count; b++)
+                {
+                    string content = request.Get("myfin.by/bank/" + banks[b].getNameId() + "/currency").ToString();
+
+                    HtmlDocument doc = new HtmlDocument();
+
+                    doc.LoadHtml(content);
+
+                    int i = 0;
+                    foreach (var item in doc.DocumentNode.QuerySelectorAll("div.col-xs-12>div.best-rates.big-rates-table>div.table-responsive>table>tbody>tr"))
+                    {
+
+                        foreach (var row in item.QuerySelectorAll("td"))
+                        {
+                            string str = row.InnerText;
+                            curr.Add(str);
+                        }
+                        curr.Add(banks[b].getNameId());
+                        addCurrencyToDB(curr);
+                        curr.Clear();
+                    }
+                    Thread.Sleep(new Random().Next(60, 200));
+                }
+
+            }
+        }
+
+        private void addCurrencyToDB(List<string> list)
+        {
+
+            try
+            {
+
+                str = "insert into Сurrency (NameCur, BuyCur, SellCur, NB_RB, UpdateTime, IndexB) values (N'" + list[0] + "', N'" + list[1] + "', N'" + list[2] + "', N'" + list[3] + "', N'" + list[4] + "', N'" + getBankId(list[5]) + "')";
+                ExecuteQuery(str);
+
+            }
+            catch (Exception e)
+            {
+
             }
         }
 
