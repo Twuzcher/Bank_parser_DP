@@ -36,7 +36,7 @@ namespace bank_parser
                 MainForm mainForm = new MainForm();
                 Hide();
                 mainForm.ShowDialog();
-                Show();
+                Close();
             }
         }
 

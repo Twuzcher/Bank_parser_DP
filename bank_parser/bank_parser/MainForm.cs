@@ -28,6 +28,7 @@ namespace bank_parser
             metroPanel1.AutoScroll = true;
             add = new AddButtonToPanel(metroPanel1);//объект класса для добвления кнопок
             addButtons(add); //вызов метода добавления кнопок на панель
+            MessageBox.Show(parser.getBankId("belinvestbank"), "hi", MessageBoxButtons.OK);
             addDataGrids();
         }
 
