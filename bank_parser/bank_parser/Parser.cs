@@ -210,13 +210,20 @@ namespace bank_parser
         public string getBankId(string name)
         {
             DataTable table = new DataTable();
-
-            using (SqlDataAdapter da = new SqlDataAdapter(@"SELECT IndexB FROM Bank where NameIdB like N'%" + name + "%'", sqlCon))
+            try
             {
-                da.Fill(table);
-                name = table.Rows[0][0].ToString();
-                return name;
+                using (SqlDataAdapter da = new SqlDataAdapter(@"SELECT IndexB FROM Bank where NameIdB like N'%" + name + "%'", sqlCon))
+                {
+                    da.Fill(table);
+                    name = table.Rows[0][0].ToString();
+                   
+                }
             }
+            catch (Exception e)
+            {
+
+            }
+            return name;
         }
 
         public void parsBankCurrency()

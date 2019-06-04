@@ -175,7 +175,6 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Functions\Bank.cs" />
-    <Compile Include="Functions\IBankFunction.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
