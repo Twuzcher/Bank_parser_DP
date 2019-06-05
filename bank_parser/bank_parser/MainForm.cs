@@ -50,7 +50,7 @@ namespace bank_parser
 
         public void btn_action(object sender, EventArgs e)//метод события по нажатию на добавленную кнопку
         {
-            MetroFramework.MetroMessageBox.Show(this, ((MetroButton)sender).Name, "Ku", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MetroFramework.MetroMessageBox.Show(this, ((MetroButton)sender).Text, "Вы выбрали: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
             parser.getDepartamentsFromDB(((MetroButton)sender).Name, metroGridDep);
             parser.getCurrencyFromDB(((MetroButton)sender).Name, metroGridCur);
             parser.getCreditFromDB(((MetroButton)sender).Name, metroGridCred);
