@@ -11,6 +11,7 @@ using MetroFramework;
 using MetroFramework.Forms;
 using MetroFramework.Components;
 using MetroFramework.Controls;
+using System.Data.SqlClient;
 
 namespace bank_parser
 {
@@ -32,8 +33,6 @@ namespace bank_parser
             
         }
 
-        
-
         public void addButtons(AddButtonToPanel add) //метод, добавляющий кнопки
         {
             try
@@ -52,7 +51,10 @@ namespace bank_parser
         public void btn_action(object sender, EventArgs e)//метод события по нажатию на добавленную кнопку
         {
             MetroFramework.MetroMessageBox.Show(this, ((MetroButton)sender).Name, "Ku", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            
+            parser.getDepartamentsFromDB(((MetroButton)sender).Name, metroGridDep);
+            parser.getCurrencyFromDB(((MetroButton)sender).Name, metroGridCur);
+            parser.getCreditFromDB(((MetroButton)sender).Name, metroGridCred);
+            parser.getContributionFromDB(((MetroButton)sender).Name, metroGridCon);
         }
 
         private void metroBack_Click(object sender, EventArgs e)

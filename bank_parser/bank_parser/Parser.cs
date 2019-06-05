@@ -41,7 +41,7 @@ namespace bank_parser
             {
                 
             }
-        }
+        }     
 
         public void parsBanksNames() // Метод получающий список банков и добавляющий их БД
         {            
@@ -402,5 +402,69 @@ namespace bank_parser
             }
         }
 
+        public void getDepartamentsFromDB(string name, MetroFramework.Controls.MetroGrid grid)
+        {
+            SqlDataAdapter sqlDA = new SqlDataAdapter("select Departament.NameD, Departament.AddressD, Departament.PhonesD, Departament.WorkTimeD, Departament.CloseTimeD, Departament.CityD, Bank.NameB from Bank inner join Departament on Bank.IndexB = Departament.IndexB where Bank.NameIdB = '" + name +"'", sqlCon);
+            SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
+            //DataSet ds = new DataSet();
+            try
+            {
+                DataSet ds = new DataSet();
+                sqlDA.Fill(ds);
+                grid.DataSource = ds.Tables[0];
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public void getCurrencyFromDB(string name, MetroFramework.Controls.MetroGrid grid)
+        {
+            SqlDataAdapter sqlDA = new SqlDataAdapter("select Сurrency.NameCur, Сurrency.BuyCur, Сurrency.SellCur, Сurrency.NB_RB, Сurrency.UpdateTime, Bank.NameB from Bank inner join Сurrency on Bank.IndexB = Сurrency.IndexB where Bank.NameIdB = '" + name + "'", sqlCon);
+            SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
+            try
+            {
+                DataSet ds = new DataSet();
+                sqlDA.Fill(ds);
+                grid.DataSource = ds.Tables[0];
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public void getCreditFromDB(string name, MetroFramework.Controls.MetroGrid grid)
+        {
+            SqlDataAdapter sqlDA = new SqlDataAdapter("select Credit.NameCr, Credit.Valuta, Credit.Summa, Credit.Srok, Credit.Protsent, Bank.NameB from Bank inner join Credit on Bank.IndexB = Credit.IndexB where Bank.NameIdB = '" + name + "'", sqlCon);
+            SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
+            try
+            {
+                DataSet ds = new DataSet();
+                sqlDA.Fill(ds);
+                grid.DataSource = ds.Tables[0];
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public void getContributionFromDB(string name, MetroFramework.Controls.MetroGrid grid)
+        {
+            SqlDataAdapter sqlDA = new SqlDataAdapter("select Contribution.NameC, Contribution.Valuta, Contribution.Summa, Contribution.Srok, Contribution.Protsent, Bank.NameB from Bank inner join Contribution on Bank.IndexB = Contribution.IndexB where Bank.NameIdB = '" + name + "'", sqlCon);
+            SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
+            try
+            {
+                DataSet ds = new DataSet();
+                sqlDA.Fill(ds);
+                grid.DataSource = ds.Tables[0];
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
     }
 }

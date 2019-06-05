@@ -69,3 +69,9 @@ drop table Сurrency
 drop table Departament
 drop table Contribution
 drop table Credit
+
+
+select Departament.NameD, Departament.AddressD, Departament.PhonesD, Departament.WorkTimeD, Departament.CloseTimeD, Departament.CityD, Bank.NameB from Bank inner join Departament on Bank.IndexB = Departament.IndexB where Bank.NameIdB = 'absolutbank'
+select Сurrency.NameCur, Сurrency.BuyCur, Сurrency.SellCur, Сurrency.NB_RB, Сurrency.UpdateTime, Bank.NameB from Bank inner join Сurrency on Bank.IndexB = Сurrency.IndexB where Bank.NameIdB = 'absolutbank'
+select Credit.NameCr, Credit.Valuta, Credit.Summa, Credit.Srok, Credit.Protsent, Bank.NameB from Bank inner join Credit on Bank.IndexB = Credit.IndexB where Bank.NameIdB = 'absolutbank'
+select Contribution.NameC, Contribution.Valuta, Contribution.Summa, Contribution.Srok, Contribution.Protsent, Bank.NameB from Bank inner join Contribution on Bank.IndexB = Contribution.IndexB where Bank.NameIdB = 'absolutbank'
