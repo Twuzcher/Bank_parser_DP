@@ -52,7 +52,7 @@
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.metroPanel2 = new MetroFramework.Controls.MetroPanel();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
-            this.metroButton1 = new MetroFramework.Controls.MetroButton();
+            this.metroButtonMakeGraf = new MetroFramework.Controls.MetroButton();
             this.metroComboBox1 = new MetroFramework.Controls.MetroComboBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.metroBack = new MetroFramework.Controls.MetroButton();
@@ -81,7 +81,7 @@
             this.metroTabControl1.Controls.Add(this.tabPage6);
             this.metroTabControl1.Location = new System.Drawing.Point(168, 12);
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 0;
+            this.metroTabControl1.SelectedIndex = 4;
             this.metroTabControl1.Size = new System.Drawing.Size(618, 413);
             this.metroTabControl1.TabIndex = 0;
             this.metroTabControl1.UseSelectable = true;
@@ -310,7 +310,7 @@
             // metroPanel2
             // 
             this.metroPanel2.Controls.Add(this.metroLabel2);
-            this.metroPanel2.Controls.Add(this.metroButton1);
+            this.metroPanel2.Controls.Add(this.metroButtonMakeGraf);
             this.metroPanel2.Controls.Add(this.metroComboBox1);
             this.metroPanel2.HorizontalScrollbarBarColor = true;
             this.metroPanel2.HorizontalScrollbarHighlightOnWheel = false;
@@ -332,14 +332,14 @@
             this.metroLabel2.Text = "Выбирете валюту";
             this.metroLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // metroButton1
+            // metroButtonMakeGraf
             // 
-            this.metroButton1.Location = new System.Drawing.Point(363, 322);
-            this.metroButton1.Name = "metroButton1";
-            this.metroButton1.Size = new System.Drawing.Size(139, 29);
-            this.metroButton1.TabIndex = 3;
-            this.metroButton1.Text = "Сгенерировать график";
-            this.metroButton1.UseSelectable = true;
+            this.metroButtonMakeGraf.Location = new System.Drawing.Point(363, 322);
+            this.metroButtonMakeGraf.Name = "metroButtonMakeGraf";
+            this.metroButtonMakeGraf.Size = new System.Drawing.Size(139, 29);
+            this.metroButtonMakeGraf.TabIndex = 3;
+            this.metroButtonMakeGraf.Text = "Сгенерировать график";
+            this.metroButtonMakeGraf.UseSelectable = true;
             // 
             // metroComboBox1
             // 
@@ -438,7 +438,7 @@
         private MetroFramework.Controls.MetroGrid metroGridDep;
         private MetroFramework.Controls.MetroPanel metroPanel2;
         private MetroFramework.Controls.MetroLabel metroLabel2;
-        private MetroFramework.Controls.MetroButton metroButton1;
+        private MetroFramework.Controls.MetroButton metroButtonMakeGraf;
         private MetroFramework.Controls.MetroComboBox metroComboBox1;
         private System.Windows.Forms.TabPage tabPage6;
     }

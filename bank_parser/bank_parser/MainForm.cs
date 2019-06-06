@@ -30,7 +30,7 @@ namespace bank_parser
             add = new AddButtonToPanel(metroPanel1);//объект класса для добвления кнопок
             addButtons(add); //вызов метода добавления кнопок на панель
             MessageBox.Show(parser.getBankId("belinvestbank"), "hi", MessageBoxButtons.OK);
-            
+           
         }
 
         public void addButtons(AddButtonToPanel add) //метод, добавляющий кнопки
