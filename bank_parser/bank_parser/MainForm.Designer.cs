@@ -51,6 +51,7 @@
             this.metroGridDep = new MetroFramework.Controls.MetroGrid();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.metroPanel2 = new MetroFramework.Controls.MetroPanel();
+            this.cartesianChartCurrency = new LiveCharts.WinForms.CartesianChart();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.metroButtonMakeGraf = new MetroFramework.Controls.MetroButton();
             this.metroComboBox1 = new MetroFramework.Controls.MetroComboBox();
@@ -58,7 +59,6 @@
             this.metroBack = new MetroFramework.Controls.MetroButton();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
-            this.cartesianChartCurrency = new LiveCharts.WinForms.CartesianChart();
             this.metroTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metroGridCred)).BeginInit();
@@ -74,11 +74,11 @@
             // 
             // metroTabControl1
             // 
+            this.metroTabControl1.Controls.Add(this.tabPage5);
             this.metroTabControl1.Controls.Add(this.tabPage1);
             this.metroTabControl1.Controls.Add(this.tabPage2);
             this.metroTabControl1.Controls.Add(this.tabPage3);
             this.metroTabControl1.Controls.Add(this.tabPage4);
-            this.metroTabControl1.Controls.Add(this.tabPage5);
             this.metroTabControl1.Controls.Add(this.tabPage6);
             this.metroTabControl1.Location = new System.Drawing.Point(168, 12);
             this.metroTabControl1.Name = "metroTabControl1";
@@ -325,6 +325,14 @@
             this.metroPanel2.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel2.VerticalScrollbarSize = 10;
             // 
+            // cartesianChartCurrency
+            // 
+            this.cartesianChartCurrency.Location = new System.Drawing.Point(2, 0);
+            this.cartesianChartCurrency.Name = "cartesianChartCurrency";
+            this.cartesianChartCurrency.Size = new System.Drawing.Size(605, 329);
+            this.cartesianChartCurrency.TabIndex = 5;
+            this.cartesianChartCurrency.Text = "Диаграмма";
+            // 
             // metroLabel2
             // 
             this.metroLabel2.Location = new System.Drawing.Point(73, 332);
@@ -363,6 +371,7 @@
             // 
             // metroBack
             // 
+            this.metroBack.BackColor = System.Drawing.Color.White;
             this.metroBack.Location = new System.Drawing.Point(12, 372);
             this.metroBack.Name = "metroBack";
             this.metroBack.Size = new System.Drawing.Size(156, 53);
@@ -373,6 +382,8 @@
             // 
             // metroLabel1
             // 
+            this.metroLabel1.BackColor = System.Drawing.Color.White;
+            this.metroLabel1.ForeColor = System.Drawing.Color.Black;
             this.metroLabel1.Location = new System.Drawing.Point(12, 12);
             this.metroLabel1.Name = "metroLabel1";
             this.metroLabel1.Size = new System.Drawing.Size(156, 35);
@@ -394,14 +405,6 @@
             this.metroPanel1.VerticalScrollbarBarColor = true;
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel1.VerticalScrollbarSize = 15;
-            // 
-            // cartesianChartCurrency
-            // 
-            this.cartesianChartCurrency.Location = new System.Drawing.Point(2, 0);
-            this.cartesianChartCurrency.Name = "cartesianChartCurrency";
-            this.cartesianChartCurrency.Size = new System.Drawing.Size(605, 329);
-            this.cartesianChartCurrency.TabIndex = 5;
-            this.cartesianChartCurrency.Text = "Диаграмма";
             // 
             // MainForm
             // 
