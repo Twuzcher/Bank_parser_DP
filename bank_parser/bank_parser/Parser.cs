@@ -15,7 +15,7 @@ namespace bank_parser
     class Parser
     {
         SqlConnection sqlCon;
-        string con = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\DB.mdf;Integrated Security=True";
+        string con = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\SqlBankParserDB.mdf;Integrated Security=True";
         string str;
         List<Functions.Bank> banks;
         public Parser()
@@ -41,37 +41,42 @@ namespace bank_parser
             {
                 
             }
-        }     
+        }
 
         public void parsBanksNames() // Метод получающий список банков и добавляющий их БД
         {            
             List<Functions.Bank> banks = new List<Functions.Bank>();
             try
             {
-                using (var request = new HttpRequest())
+                while (banks.Count < 24)
                 {
-                    string content = request.Get("myfin.by/banki").ToString();//получение странницы
-                    HtmlDocument doc = new HtmlDocument();// Присваиваем текстовой переменной k html-код              
-                    doc.LoadHtml(content);// Загружаем в класс (парсер) наш html
-                    List<string> nameRus = new List<string>();
-                    List<string> nameEng = new List<string>();
+                    banks.Clear();
+                    using (var request = new HttpRequest())
+                    {
+                        string content = request.Get("myfin.by/banki").ToString();//получение странницы
+                        HtmlDocument doc = new HtmlDocument();// Присваиваем текстовой переменной k html-код              
+                        doc.LoadHtml(content);// Загружаем в класс (парсер) наш html
+                        List<string> nameRus = new List<string>();
+                        List<string> nameEng = new List<string>();
 
-                    foreach (var item in doc.DocumentNode.QuerySelectorAll("table.rates-table-sort>tbody>tr"))//сам парсер, парсит по селекторам
-                    {
-                        string str = item.QuerySelector("td>a>span").InnerText;
-                        nameRus.Add(str);
+                        foreach (var item in doc.DocumentNode.QuerySelectorAll("table.rates-table-sort>tbody>tr"))//сам парсер, парсит по селекторам
+                        {
+                            string str = item.QuerySelector("td>a>span").InnerText;
+                            nameRus.Add(str);
+                        }
+                        foreach (var item in doc.DocumentNode.Descendants("a").Where(x => x.Attributes["class"] != null && x.Attributes["class"].Value == "b_n"))
+                        {
+                            var t = item.Attributes["href"].Value;
+                            string value = t.ToString().Substring(6);
+                            nameEng.Add(value);
+                        }
+                        for (int i = 0; i < nameEng.Count; i++)
+                        {
+                            banks.Add(new Functions.Bank(nameRus[i], nameEng[i]));
+                        }
+                        Thread.Sleep(new Random().Next(60, 200));
                     }
-                    foreach (var item in doc.DocumentNode.Descendants("a").Where(x => x.Attributes["class"] != null && x.Attributes["class"].Value == "b_n"))
-                    {
-                        var t = item.Attributes["href"].Value;
-                        string value = t.ToString().Substring(6);
-                        nameEng.Add(value);
-                    }
-                    for (int i = 0; i < nameEng.Count; i++)
-                    {
-                        banks.Add(new Functions.Bank(nameRus[i], nameEng[i]));
-                    }
-                    Thread.Sleep(new Random().Next(60, 200));
+                    //Thread.Sleep(new Random().Next(60, 200));
                 }
             }
             catch (Exception e)

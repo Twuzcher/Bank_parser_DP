@@ -1,4 +1,6 @@
-﻿create table Bank
+﻿create database SqlBankParserDB
+use SqlBankParserDB
+create table Bank
 (
 IndexB int identity(1,1) not null,
 NameB nvarchar(50) not null,
@@ -75,3 +77,6 @@ select Departament.NameD, Departament.AddressD, Departament.PhonesD, Departament
 select Сurrency.NameCur, Сurrency.BuyCur, Сurrency.SellCur, Сurrency.NB_RB, Сurrency.UpdateTime, Bank.NameB from Bank inner join Сurrency on Bank.IndexB = Сurrency.IndexB where Bank.NameIdB = 'absolutbank'
 select Credit.NameCr, Credit.Valuta, Credit.Summa, Credit.Srok, Credit.Protsent, Bank.NameB from Bank inner join Credit on Bank.IndexB = Credit.IndexB where Bank.NameIdB = 'absolutbank'
 select Contribution.NameC, Contribution.Valuta, Contribution.Summa, Contribution.Srok, Contribution.Protsent, Bank.NameB from Bank inner join Contribution on Bank.IndexB = Contribution.IndexB where Bank.NameIdB = 'absolutbank'
+
+
+
