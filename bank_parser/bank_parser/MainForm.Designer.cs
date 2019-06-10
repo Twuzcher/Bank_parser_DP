@@ -131,7 +131,7 @@
             this.metroGridCred.EnableHeadersVisualStyles = false;
             this.metroGridCred.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.metroGridCred.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.metroGridCred.Location = new System.Drawing.Point(0, 0);
+            this.metroGridCred.Location = new System.Drawing.Point(3, 0);
             this.metroGridCred.Name = "metroGridCred";
             this.metroGridCred.ReadOnly = true;
             this.metroGridCred.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -145,7 +145,7 @@
             this.metroGridCred.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.metroGridCred.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.metroGridCred.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.metroGridCred.Size = new System.Drawing.Size(732, 447);
+            this.metroGridCred.Size = new System.Drawing.Size(729, 447);
             this.metroGridCred.TabIndex = 0;
             // 
             // tabPage2
@@ -451,9 +451,9 @@
             this.metroBack.BackColor = System.Drawing.Color.White;
             this.metroBack.Location = new System.Drawing.Point(12, 445);
             this.metroBack.Name = "metroBack";
-            this.metroBack.Size = new System.Drawing.Size(156, 53);
+            this.metroBack.Size = new System.Drawing.Size(150, 53);
             this.metroBack.TabIndex = 2;
-            this.metroBack.Text = "Назад";
+            this.metroBack.Text = "Выход";
             this.metroBack.UseSelectable = true;
             this.metroBack.Click += new System.EventHandler(this.metroBack_Click);
             // 
