@@ -9,6 +9,10 @@ using HtmlAgilityPack;
 using System.Threading;
 using System.Data.SqlClient;
 using System.Data;
+using MetroFramework.Controls;
+using LiveCharts;
+using LiveCharts.WinForms;
+using LiveCharts.Charts;
 
 namespace bank_parser
 {
@@ -30,7 +34,7 @@ namespace bank_parser
 
         }
 
-        public async void SqlConnection() //подключение к бд
+        private async void SqlConnection() //подключение к бд
         {
             sqlCon = new SqlConnection(con);
             try
@@ -43,12 +47,14 @@ namespace bank_parser
             }
         }
 
-        public void parsBanksNames() // Метод получающий список банков и добавляющий их БД
+        private void parsBanksNames() // Метод получающий список банков и добавляющий их в БД
         {            
             List<Functions.Bank> banks = new List<Functions.Bank>();
             try
             {
-                while (banks.Count < 24)
+                bool temp = true;
+                int count = 0;
+                while (temp)
                 {
                     banks.Clear();
                     using (var request = new HttpRequest())
@@ -57,8 +63,11 @@ namespace bank_parser
                         HtmlDocument doc = new HtmlDocument();// Присваиваем текстовой переменной k html-код              
                         doc.LoadHtml(content);// Загружаем в класс (парсер) наш html
                         List<string> nameRus = new List<string>();
-                        List<string> nameEng = new List<string>();
-
+                        List<string> nameEng = new List<string>();                     
+                        foreach (var item in doc.DocumentNode.QuerySelectorAll("table.rates-table-sort>tbody>tr"))
+                        {
+                            count++;
+                        }
                         foreach (var item in doc.DocumentNode.QuerySelectorAll("table.rates-table-sort>tbody>tr"))//сам парсер, парсит по селекторам
                         {
                             string str = item.QuerySelector("td>a>span").InnerText;
@@ -77,6 +86,14 @@ namespace bank_parser
                         Thread.Sleep(new Random().Next(60, 200));
                     }
                     //Thread.Sleep(new Random().Next(60, 200));
+                    if (count == 24 && banks.Count == 24)
+                    {
+                        break;
+                    }
+                    else if (count != 24 || banks.Count != 24)
+                    {
+                        count = 0;
+                    }
                 }
             }
             catch (Exception e)
@@ -103,7 +120,7 @@ namespace bank_parser
             return banks;
         } //возвращает лист банков
 
-        public void parsBanksDepartaments() //Метод получающий список депортаментов по банкам и городам и добавляющий их БД
+        private void parsBanksDepartaments() //Метод получающий список отделения по банкам и городам и добавляющий их БД
         {
             using (var request = new HttpRequest())
             {
@@ -196,7 +213,7 @@ namespace bank_parser
             }
         }
 
-        private void addDepartamentsToDB(List<string> list)
+        private void addDepartamentsToDB(List<string> list) //Метод добавляющий отделения в бд
         {
             
             try
@@ -212,7 +229,7 @@ namespace bank_parser
             }
         }
 
-        public string getBankId(string name)
+        public string getBankId(string name) //получает индекс указанного банка из бд по имени
         {
             DataTable table = new DataTable();
             try
@@ -231,7 +248,7 @@ namespace bank_parser
             return name;
         }
 
-        public void parsBankCurrency()
+        private void parsBankCurrency() //метод получающий валюту по банкам и добаляющий валюту в БД
         {
             List<string> curr = new List<string>();
             using (var request = new HttpRequest())
@@ -263,7 +280,7 @@ namespace bank_parser
             }
         }
 
-        private void addCurrencyToDB(List<string> list)
+        private void addCurrencyToDB(List<string> list) //метод добаляющий валюту в бд
         {
 
             try
@@ -279,7 +296,7 @@ namespace bank_parser
             }
         }
 
-        public void parsBankCreditsAndContribution(string type)
+        private void parsBankCreditsAndContribution(string type) //метод получающий кредиты и вклады по банкам и добавлющий -//- в бд
         {
             using (var request = new HttpRequest())
             {
@@ -373,7 +390,7 @@ namespace bank_parser
             }
         }
 
-        public void addCreditsAndContributions(List<string> list, string type)
+        private void addCreditsAndContributions(List<string> list, string type) //метод добавляющий валюту и кредиты в бд
         {
             try
             {
@@ -394,7 +411,7 @@ namespace bank_parser
             }
         }
 
-        private void ExecuteQuery(string str) // добавление в бд
+        private void ExecuteQuery(string str) // метод который выполняет запрос на добавление в бд
         {
             SqlCommand command = new SqlCommand(str, sqlCon);
             try
@@ -407,7 +424,7 @@ namespace bank_parser
             }
         }
 
-        public void getDepartamentsFromDB(string name, MetroFramework.Controls.MetroGrid grid)
+        public void getDepartamentsFromDB(string name, MetroFramework.Controls.MetroGrid grid) //выгрузка отделений из бд
         {
             SqlDataAdapter sqlDA = new SqlDataAdapter("select Departament.NameD, Departament.AddressD, Departament.PhonesD, Departament.WorkTimeD, Departament.CloseTimeD, Departament.CityD, Bank.NameB from Bank inner join Departament on Bank.IndexB = Departament.IndexB where Bank.NameIdB = '" + name +"'", sqlCon);
             SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
@@ -424,7 +441,7 @@ namespace bank_parser
             }
         }
 
-        public void getCurrencyFromDB(string name, MetroFramework.Controls.MetroGrid grid)
+        public void getCurrencyFromDB(string name, MetroFramework.Controls.MetroGrid grid) //выгрузка валюты из бд
         {
             SqlDataAdapter sqlDA = new SqlDataAdapter("select Сurrency.NameCur, Сurrency.BuyCur, Сurrency.SellCur, Сurrency.NB_RB, Сurrency.UpdateTime, Bank.NameB from Bank inner join Сurrency on Bank.IndexB = Сurrency.IndexB where Bank.NameIdB = '" + name + "'", sqlCon);
             SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
@@ -440,7 +457,7 @@ namespace bank_parser
             }
         }
 
-        public void getCreditFromDB(string name, MetroFramework.Controls.MetroGrid grid)
+        public void getCreditFromDB(string name, MetroFramework.Controls.MetroGrid grid) //выгрузка кредитов из бд
         {
             SqlDataAdapter sqlDA = new SqlDataAdapter("select Credit.NameCr, Credit.Valuta, Credit.Summa, Credit.Srok, Credit.Protsent, Bank.NameB from Bank inner join Credit on Bank.IndexB = Credit.IndexB where Bank.NameIdB = '" + name + "'", sqlCon);
             SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
@@ -456,7 +473,7 @@ namespace bank_parser
             }
         }
 
-        public void getContributionFromDB(string name, MetroFramework.Controls.MetroGrid grid)
+        public void getContributionFromDB(string name, MetroFramework.Controls.MetroGrid grid) //выгрузка вкладов из бд
         {
             SqlDataAdapter sqlDA = new SqlDataAdapter("select Contribution.NameC, Contribution.Valuta, Contribution.Summa, Contribution.Srok, Contribution.Protsent, Bank.NameB from Bank inner join Contribution on Bank.IndexB = Contribution.IndexB where Bank.NameIdB = '" + name + "'", sqlCon);
             SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
@@ -470,6 +487,48 @@ namespace bank_parser
             {
 
             }
+        }
+
+        public void getCurrencyForDiagram(string name, CartesianChart chart)
+        {
+            //string str = String.Empty;
+            DataTable table = new DataTable();
+            try
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter(@"SELECT Сurrency.NameCur, Сurrency.BuyCur, Сurrency.SellCur FROM Currency where NameCur like N'%" + name + "%'", sqlCon))
+                {
+                    da.Fill(table);
+                    //str = table.Rows[0][0].ToString();
+                    chart.Series = new SeriesCollection()
+                    {
+                        
+                    };
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
+        public string getListOfCurrency(MetroComboBox box)
+        {
+            string currency = String.Empty;
+            SqlDataAdapter sqlDA = new SqlDataAdapter("Select NameCur from Сurrency Group by NameCur order by NameCur", sqlCon);
+            SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
+            //DataSet ds = new DataSet();
+            try
+            {
+                DataSet ds = new DataSet();
+                sqlDA.Fill(ds);
+                box.DisplayMember = "NameCur";
+                box.DataSource = ds.Tables[0];
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return currency;
         }
     }
 }

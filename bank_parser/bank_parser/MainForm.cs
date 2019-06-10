@@ -31,7 +31,7 @@ namespace bank_parser
             addButtons(add); //вызов метода добавления кнопок на панель
             MessageBox.Show(parser.getBankId("belinvestbank"), "hi", MessageBoxButtons.OK);
             cartesianChartCurrency.Visible = false;
-            
+            parser.getListOfCurrency(metroComboBoxCurrency);
         }
 
         public void addButtons(AddButtonToPanel add) //метод, добавляющий кнопки
@@ -61,6 +61,22 @@ namespace bank_parser
         private void metroBack_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void metroButtonMakeGraf_Click(object sender, EventArgs e)
+        {
+            //if (metroTextBox1.Text == String.Empty)
+            //{
+            //    MetroMessageBox.Show(this, "Введите информацию в поле ввода!", "Не введена информация!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //}
+            //else if (!parser.getCurrencyBool(metroTextBox1.Text))
+            //{
+            //    MetroMessageBox.Show(this, "Такой валюты нет в базе, пожалуйста введите валюту по типу Доллар США, Евро и так далее!", "Не введена информация!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //}
+            //else
+            //{
+            //    MetroMessageBox.Show(this, "Cool!", "Cool!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //}
         }
     }
 }
