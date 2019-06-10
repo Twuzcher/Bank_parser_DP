@@ -13,6 +13,8 @@ using MetroFramework.Controls;
 using LiveCharts;
 using LiveCharts.WinForms;
 using LiveCharts.Charts;
+using LiveCharts.Wpf;
+using LiveCharts.Defaults;
 
 namespace bank_parser
 {
@@ -489,26 +491,9 @@ namespace bank_parser
             }
         }
 
-        public void getCurrencyForDiagram(string name, CartesianChart chart)
+        public SqlConnection getSqlConnection()
         {
-            //string str = String.Empty;
-            DataTable table = new DataTable();
-            try
-            {
-                using (SqlDataAdapter da = new SqlDataAdapter(@"SELECT Сurrency.NameCur, Сurrency.BuyCur, Сurrency.SellCur FROM Currency where NameCur like N'%" + name + "%'", sqlCon))
-                {
-                    da.Fill(table);
-                    //str = table.Rows[0][0].ToString();
-                    chart.Series = new SeriesCollection()
-                    {
-                        
-                    };
-                }
-            }
-            catch (Exception e)
-            {
-
-            }
+            return sqlCon;
         }
 
         public string getListOfCurrency(MetroComboBox box)

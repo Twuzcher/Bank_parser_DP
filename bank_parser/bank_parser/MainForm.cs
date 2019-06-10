@@ -12,6 +12,9 @@ using MetroFramework.Forms;
 using MetroFramework.Components;
 using MetroFramework.Controls;
 using System.Data.SqlClient;
+using LiveCharts;
+using LiveCharts.Wpf;
+using System.Globalization;
 
 namespace bank_parser
 {
@@ -26,12 +29,13 @@ namespace bank_parser
             InitializeComponent();
             parser = new Parser();
             banks = parser.getBanksNames();
+            MessageBox.Show(parser.getBankId("belinvestbank"), "hi", MessageBoxButtons.OK);
             metroPanel1.AutoScroll = true;
             add = new AddButtonToPanel(metroPanel1);//объект класса для добвления кнопок
-            addButtons(add); //вызов метода добавления кнопок на панель
-            MessageBox.Show(parser.getBankId("belinvestbank"), "hi", MessageBoxButtons.OK);
+            addButtons(add); //вызов метода добавления кнопок на панель          
             cartesianChartCurrency.Visible = false;
             parser.getListOfCurrency(metroComboBoxCurrency);
+            //cartesianChartCurrency.DisableAnimations = true;
         }
 
         public void addButtons(AddButtonToPanel add) //метод, добавляющий кнопки
@@ -65,18 +69,50 @@ namespace bank_parser
 
         private void metroButtonMakeGraf_Click(object sender, EventArgs e)
         {
-            //if (metroTextBox1.Text == String.Empty)
-            //{
-            //    MetroMessageBox.Show(this, "Введите информацию в поле ввода!", "Не введена информация!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //}
-            //else if (!parser.getCurrencyBool(metroTextBox1.Text))
-            //{
-            //    MetroMessageBox.Show(this, "Такой валюты нет в базе, пожалуйста введите валюту по типу Доллар США, Евро и так далее!", "Не введена информация!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //}
-            //else
-            //{
-            //    MetroMessageBox.Show(this, "Cool!", "Cool!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //}
+            string name = metroComboBoxCurrency.Text;
+
+            MetroMessageBox.Show(this, "Вы выбрали: " + name, "Составление графика!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            DataTable table = new DataTable();
+            try
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter(@"select Сurrency.BuyCur, Сurrency.SellCur FROM Сurrency where Сurrency.NameCur = N'" + name + "'", parser.getSqlConnection()))
+                {
+                    da.Fill(table);
+                    name = table.Rows[0][0].ToString();
+                    MetroMessageBox.Show(this, name, "Вы выбрали: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    cartesianChartCurrency.Series = new SeriesCollection()
+                    {
+                        new LineSeries()
+                        {
+                            Title = "Купить",
+                            Values = new ChartValues<double>()
+                        },
+                        new LineSeries()
+                        {
+                            Title = "Продать",
+                            Values = new ChartValues<double>()
+                        }
+                    };
+                    
+                    double db = 0;
+                    for (int i = 0; i < table.Rows.Count; i++)
+                    {
+                        db = Convert.ToDouble((table.Rows[i][0].ToString()), NumberFormatInfo.InvariantInfo);                       
+                        cartesianChartCurrency.Series[0].Values.Add(db);
+                        db = Convert.ToDouble((table.Rows[i][1].ToString()), NumberFormatInfo.InvariantInfo);                       
+                        cartesianChartCurrency.Series[1].Values.Add(db);
+                        db = 0;
+                    }
+
+                }
+            }
+            catch (Exception en)
+            {
+               // MetroMessageBox.Show(this, en.ToString(), "Double", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+            cartesianChartCurrency.Visible = true;
         }
     }
 }

@@ -83,4 +83,4 @@ select Contribution.NameC, Contribution.Valuta, Contribution.Summa, Contribution
 
 select Сurrency.BuyCur, Сurrency.SellCur, Bank.NameB from Bank inner join Сurrency on Bank.IndexB = Сurrency.IndexB where Сurrency.NameCur = 'USD'
 
-Select NameCur from Сurrency Group by NameCur order by NameCur
+select Сurrency.NameCur, Сurrency.BuyCur, Сurrency.SellCur FROM Сurrency where Сurrency.NameCur = N'Евро'
