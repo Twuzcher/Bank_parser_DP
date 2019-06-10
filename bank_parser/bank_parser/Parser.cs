@@ -29,6 +29,17 @@ namespace bank_parser
             SqlConnection();
             banks = new List<Functions.Bank>();
             parsBanksNames();
+            if (getCountOfBanks() != 24)
+            {
+                while (true)
+                {
+                    parsBanksNames();
+                    if (getCountOfBanks() != 24)
+                    {
+                        break;
+                    }
+                }
+            }
             parsBanksDepartaments();
             parsBankCurrency();
             parsBankCreditsAndContribution("vklady");
@@ -514,6 +525,28 @@ namespace bank_parser
 
             }
             return currency;
+        }
+
+        public int getCountOfBanks()
+        {
+            int count = 0;
+
+            DataTable table = new DataTable();
+            try
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter(@"select Count(*) from Bank", sqlCon))
+                {
+                    da.Fill(table);
+                    count = Convert.ToInt32(table.Rows[0][0].ToString());
+
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            return count;
         }
     }
 }

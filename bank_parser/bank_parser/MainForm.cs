@@ -29,6 +29,7 @@ namespace bank_parser
             InitializeComponent();
             parser = new Parser();
             banks = parser.getBanksNames();
+            MessageBox.Show(parser.getCountOfBanks().ToString(), "hi", MessageBoxButtons.OK);
             MessageBox.Show(parser.getBankId("belinvestbank"), "hi", MessageBoxButtons.OK);
             metroPanel1.AutoScroll = true;
             add = new AddButtonToPanel(metroPanel1);//объект класса для добвления кнопок
@@ -71,7 +72,7 @@ namespace bank_parser
         {
             string name = metroComboBoxCurrency.Text;
 
-            MetroMessageBox.Show(this, "Вы выбрали: " + name, "Составление графика!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MetroMessageBox.Show(this, "Вы выбрали: " + name, "Составление графика!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             DataTable table = new DataTable();
             try
@@ -80,7 +81,6 @@ namespace bank_parser
                 {
                     da.Fill(table);
                     name = table.Rows[0][0].ToString();
-                    MetroMessageBox.Show(this, name, "Вы выбрали: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     cartesianChartCurrency.Series = new SeriesCollection()
                     {
                         new LineSeries()
