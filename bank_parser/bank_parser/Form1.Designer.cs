@@ -34,9 +34,9 @@
             // 
             // metroButton1
             // 
-            this.metroButton1.Location = new System.Drawing.Point(290, 123);
+            this.metroButton1.Location = new System.Drawing.Point(23, 158);
             this.metroButton1.Name = "metroButton1";
-            this.metroButton1.Size = new System.Drawing.Size(188, 79);
+            this.metroButton1.Size = new System.Drawing.Size(242, 79);
             this.metroButton1.TabIndex = 0;
             this.metroButton1.Text = "Приветствую! \r\nДобро пожаловать \r\nв приложение!";
             this.metroButton1.UseSelectable = true;
@@ -44,9 +44,9 @@
             // 
             // metroButton2
             // 
-            this.metroButton2.Location = new System.Drawing.Point(290, 208);
+            this.metroButton2.Location = new System.Drawing.Point(23, 243);
             this.metroButton2.Name = "metroButton2";
-            this.metroButton2.Size = new System.Drawing.Size(188, 79);
+            this.metroButton2.Size = new System.Drawing.Size(242, 79);
             this.metroButton2.TabIndex = 1;
             this.metroButton2.Text = "Выход";
             this.metroButton2.UseSelectable = true;
@@ -56,12 +56,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(794, 441);
+            this.ClientSize = new System.Drawing.Size(288, 518);
             this.ControlBox = false;
             this.Controls.Add(this.metroButton2);
             this.Controls.Add(this.metroButton1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
+            this.Resizable = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.ResumeLayout(false);
 
         }
