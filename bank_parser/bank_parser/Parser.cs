@@ -21,20 +21,22 @@ namespace bank_parser
     class Parser
     {
         SqlConnection sqlCon;
-        string con = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\SqlBankParserDB.mdf;Integrated Security=True";
+        string con = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\BankParserDB.mdf;Integrated Security=True";
         string str;
         List<Functions.Bank> banks;
+        int banksCount;
         public Parser()
         {
             SqlConnection();
             banks = new List<Functions.Bank>();
+            banksCount = getCountOfBankFromSite();
             parsBanksNames();
-            if (getCountOfBanks() != 24)
+            if (getCountOfBanks() != banksCount)
             {
                 while (true)
                 {
                     parsBanksNames();
-                    if (getCountOfBanks() != 24)
+                    if (getCountOfBanks() != banksCount)
                     {
                         break;
                     }
@@ -99,14 +101,15 @@ namespace bank_parser
                         Thread.Sleep(new Random().Next(60, 200));
                     }
                     //Thread.Sleep(new Random().Next(60, 200));
-                    if (count == 24 && banks.Count == 24)
+                    if (count == banksCount && banks.Count == banksCount)
                     {
                         break;
                     }
-                    else if (count != 24 || banks.Count != 24)
+                    else if (count != banksCount || banks.Count != banksCount)
                     {
                         count = 0;
                     }
+                    Thread.Sleep(new Random().Next(60, 200));
                 }
             }
             catch (Exception e)
@@ -135,94 +138,101 @@ namespace bank_parser
 
         private void parsBanksDepartaments() //Метод получающий список отделения по банкам и городам и добавляющий их БД
         {
-            using (var request = new HttpRequest())
+            try
             {
-                List<string> citys = new List<string>();
-                citys.Add("minsk");
-                citys.Add("brest");
-                citys.Add("vitebsk");
-                citys.Add("gomel");
-                citys.Add("grodno");
-                citys.Add("mogilev");
-                List<string> dep = new List<string>();
-                HtmlDocument doc = new HtmlDocument();
-                for (int b = 0; b < banks.Count; b++)
+                using (var request = new HttpRequest())
                 {
-                    for (int c = 0; c < citys.Count; c++)
+                    List<string> citys = new List<string>();
+                    citys.Add("minsk");
+                    citys.Add("brest");
+                    citys.Add("vitebsk");
+                    citys.Add("gomel");
+                    citys.Add("grodno");
+                    citys.Add("mogilev");
+                    List<string> dep = new List<string>();
+                    HtmlDocument doc = new HtmlDocument();
+                    for (int b = 0; b < banks.Count; b++)
                     {
-                        string content = request.Get("myfin.by/bank/" + banks[b].getNameId() + "/otdelenija-spiskom/" + citys[c]).ToString();//получить сайт с информацией о отделениях
-                        doc.LoadHtml(content);
-                        string str = String.Empty;
-
-                        if (citys[c] == "minsk" || doc.DocumentNode.QuerySelector("head>meta:nth-child(15)").Attributes["content"].Value == ("https://myfin.by/bank/" + banks[b].getNameId() + "/otdelenija-spiskom/" + citys[c]))
+                        for (int c = 0; c < citys.Count; c++)
                         {
-                            int i = 0;
+                            string content = request.Get("myfin.by/bank/" + banks[b].getNameId() + "/otdelenija-spiskom/" + citys[c]).ToString();//получить сайт с информацией о отделениях
+                            doc.LoadHtml(content);
+                            string str = String.Empty;
 
-                            foreach (var item in doc.DocumentNode.QuerySelectorAll("div.pagination.text-center>ul#yw1.list-reset>li.page")) //подсчёт страниц
+                            if (citys[c] == "minsk" || doc.DocumentNode.QuerySelector("head>meta:nth-child(15)").Attributes["content"].Value == ("https://myfin.by/bank/" + banks[b].getNameId() + "/otdelenija-spiskom/" + citys[c]))
                             {
-                                i++;
-                            }
-                            if (i == 10)
-                            {
-                                str = doc.DocumentNode.QuerySelector("div.pagination.text-center>ul#yw1.list-reset>li:nth-child(14)>a").Attributes["href"].Value.ToString();
-                                str = str.Substring(str.Length - 2);
-                            }
-                            else if (i < 10 && i > 0)
-                            {
-                                str = i.ToString();
-                            }
-                            else if (i == 0)
-                            {
-                                str = 1.ToString();
-                            }
-                            i = Int32.Parse(str);
-                            content = String.Empty;
-                            for (int j = 1; j <= i; j++)//по странично
-                            {
- 
-                                content = request.Get("myfin.by/bank/" + banks[b].getNameId() + "/otdelenija-spiskom/" + citys[c] + "?page=" + j.ToString()).ToString();//получение определённой страницы
+                                int i = 0;
 
-                                HtmlDocument doc1 = new HtmlDocument();
-                                doc1.LoadHtml(content);
-
-                                foreach (var item in doc1.DocumentNode.QuerySelectorAll("div.tab-content>div#tabTable.tab-pane.fade.in.active>div.cont-table.div-table>div#banki_poisk_menu.credit-table-sort>table.items>tbody.table-body>tr.odd"))//парсинг
+                                foreach (var item in doc.DocumentNode.QuerySelectorAll("div.pagination.text-center>ul#yw1.list-reset>li.page")) //подсчёт страниц
+                                {
+                                    i++;
+                                }
+                                if (i == 10)
+                                {
+                                    str = doc.DocumentNode.QuerySelector("div.pagination.text-center>ul#yw1.list-reset>li:nth-child(14)>a").Attributes["href"].Value.ToString();
+                                    str = str.Substring(str.Length - 2);
+                                }
+                                else if (i < 10 && i > 0)
+                                {
+                                    str = i.ToString();
+                                }
+                                else if (i == 0)
+                                {
+                                    str = 1.ToString();
+                                }
+                                i = Int32.Parse(str);
+                                content = String.Empty;
+                                for (int j = 1; j <= i; j++)//по странично
                                 {
 
-                                    foreach (var row in item.QuerySelectorAll("td.td"))
+                                    content = request.Get("myfin.by/bank/" + banks[b].getNameId() + "/otdelenija-spiskom/" + citys[c] + "?page=" + j.ToString()).ToString();//получение определённой страницы
+
+                                    HtmlDocument doc1 = new HtmlDocument();
+                                    doc1.LoadHtml(content);
+
+                                    foreach (var item in doc1.DocumentNode.QuerySelectorAll("div.tab-content>div#tabTable.tab-pane.fade.in.active>div.cont-table.div-table>div#banki_poisk_menu.credit-table-sort>table.items>tbody.table-body>tr.odd"))//парсинг
                                     {
-                                        str = row.InnerText;
-                                        dep.Add(str);
+
+                                        foreach (var row in item.QuerySelectorAll("td.td"))
+                                        {
+                                            str = row.InnerText;
+                                            dep.Add(str);
+                                        }
+
+                                        dep.Add(citys[c]);
+                                        dep.Add(banks[b].getNameId());
+                                        addDepartamentsToDB(dep);
+                                        dep.Clear();
                                     }
-
-                                    dep.Add(citys[c]);
-                                    dep.Add(banks[b].getNameId());
-                                    addDepartamentsToDB(dep);
-                                    dep.Clear();
-                                }
-                                foreach (var item in doc1.DocumentNode.QuerySelectorAll("div.tab-content>div#tabTable.tab-pane.fade.in.active>div.cont-table.div-table>div#banki_poisk_menu.credit-table-sort>table.items>tbody.table-body>tr.even"))//парсинг
-                                {
-
-                                    foreach (var row in item.QuerySelectorAll("td.td"))
+                                    foreach (var item in doc1.DocumentNode.QuerySelectorAll("div.tab-content>div#tabTable.tab-pane.fade.in.active>div.cont-table.div-table>div#banki_poisk_menu.credit-table-sort>table.items>tbody.table-body>tr.even"))//парсинг
                                     {
-                                        str = row.InnerText;
-                                        dep.Add(str);
+
+                                        foreach (var row in item.QuerySelectorAll("td.td"))
+                                        {
+                                            str = row.InnerText;
+                                            dep.Add(str);
+                                        }
+
+                                        dep.Add(citys[c]);
+                                        dep.Add(banks[b].getNameId());
+                                        addDepartamentsToDB(dep);
+                                        dep.Clear();
+
                                     }
-
-                                    dep.Add(citys[c]);
-                                    dep.Add(banks[b].getNameId());
-                                    addDepartamentsToDB(dep);
-                                    dep.Clear();
-
+                                    Thread.Sleep(new Random().Next(60, 200));
                                 }
+
                                 Thread.Sleep(new Random().Next(60, 200));
                             }
 
-                            Thread.Sleep(new Random().Next(60, 200));
                         }
-                        
+                        Thread.Sleep(new Random().Next(60, 200));
                     }
-                    Thread.Sleep(new Random().Next(60, 200));
                 }
+            }
+            catch (Exception e)
+            {
+
             }
         }
 
@@ -264,31 +274,38 @@ namespace bank_parser
         private void parsBankCurrency() //метод получающий валюту по банкам и добаляющий валюту в БД
         {
             List<string> curr = new List<string>();
-            using (var request = new HttpRequest())
+            try
             {
-                for (int b = 0; b < banks.Count; b++)
+                using (var request = new HttpRequest())
                 {
-                    string content = request.Get("myfin.by/bank/" + banks[b].getNameId() + "/currency").ToString();
-
-                    HtmlDocument doc = new HtmlDocument();
-
-                    doc.LoadHtml(content);
-
-                    int i = 0;
-                    foreach (var item in doc.DocumentNode.QuerySelectorAll("div.col-xs-12>div.best-rates.big-rates-table>div.table-responsive>table>tbody>tr"))
+                    for (int b = 0; b < banks.Count; b++)
                     {
+                        string content = request.Get("myfin.by/bank/" + banks[b].getNameId() + "/currency").ToString();
 
-                        foreach (var row in item.QuerySelectorAll("td"))
+                        HtmlDocument doc = new HtmlDocument();
+
+                        doc.LoadHtml(content);
+
+                        int i = 0;
+                        foreach (var item in doc.DocumentNode.QuerySelectorAll("div.col-xs-12>div.best-rates.big-rates-table>div.table-responsive>table>tbody>tr"))
                         {
-                            string str = row.InnerText;
-                            curr.Add(str);
+
+                            foreach (var row in item.QuerySelectorAll("td"))
+                            {
+                                string str = row.InnerText;
+                                curr.Add(str);
+                            }
+                            curr.Add(banks[b].getNameId());
+                            addCurrencyToDB(curr);
+                            curr.Clear();
                         }
-                        curr.Add(banks[b].getNameId());
-                        addCurrencyToDB(curr);
-                        curr.Clear();
+                        Thread.Sleep(new Random().Next(60, 200));
                     }
-                    Thread.Sleep(new Random().Next(60, 200));
+
                 }
+            }
+            catch (Exception e)
+            {
 
             }
         }
@@ -311,95 +328,102 @@ namespace bank_parser
 
         private void parsBankCreditsAndContribution(string type) //метод получающий кредиты и вклады по банкам и добавлющий -//- в бд
         {
-            using (var request = new HttpRequest())
+            try
             {
-                
-                HtmlDocument doc = new HtmlDocument();         
-                int i = 0;
-                //List<string> types = new List<string>();
-                List<string> values = new List<string>();
-                string str = String.Empty;
-                string name = String.Empty;
-
-                for (int b = 0; b < banks.Count; b++)
+                using (var request = new HttpRequest())
                 {
-                    string content = request.Get("myfin.by/bank/" + banks[b].getNameId() + "/" + type).ToString();
 
-                    doc.LoadHtml(content);
+                    HtmlDocument doc = new HtmlDocument();
+                    int i = 0;
+                    //List<string> types = new List<string>();
+                    List<string> values = new List<string>();
+                    string str = String.Empty;
+                    string name = String.Empty;
 
-                    foreach (var item in doc.DocumentNode.QuerySelectorAll("div.content_i>div.credit-rates>div.table-responsive>table>tbody>tr"))
+                    for (int b = 0; b < banks.Count; b++)
                     {
-                        foreach (var row in item.QuerySelectorAll("td"))
-                        {
-                            str = row.InnerText;
-                            i++;
-                        }
-                        if (i == 1)
-                        {
-                            //types.Add(str);
+                        string content = request.Get("myfin.by/bank/" + banks[b].getNameId() + "/" + type).ToString();
 
-                            i = 0;
-                        }
-                        else if (i == 6)
+                        doc.LoadHtml(content);
+
+                        foreach (var item in doc.DocumentNode.QuerySelectorAll("div.content_i>div.credit-rates>div.table-responsive>table>tbody>tr"))
                         {
-                            i = 0;
                             foreach (var row in item.QuerySelectorAll("td"))
                             {
+                                str = row.InnerText;
                                 i++;
-                                if (i > 5)
+                            }
+                            if (i == 1)
+                            {
+                                //types.Add(str);
+
+                                i = 0;
+                            }
+                            else if (i == 6)
+                            {
+                                i = 0;
+                                foreach (var row in item.QuerySelectorAll("td"))
                                 {
-                                    break;
-                                }
-                                else
-                                {
-                                    if (i == 1)
+                                    i++;
+                                    if (i > 5)
                                     {
-                                        name = row.InnerText;
+                                        break;
                                     }
-                                    str = row.InnerText;
-                                    str = str.Replace("&nbsp;", " ");
-                                    values.Add(str);
+                                    else
+                                    {
+                                        if (i == 1)
+                                        {
+                                            name = row.InnerText;
+                                        }
+                                        str = row.InnerText;
+                                        str = str.Replace("&nbsp;", " ");
+                                        values.Add(str);
+                                    }
                                 }
-                            }
 
-                            values.Add(banks[b].getNameId());
-                            addCreditsAndContributions(values, type);
-                            values.Clear();
-                        }
-                        else if (i == 5)
-                        {
-                            i = 0;
-                            values.Add(name);
-                            foreach (var row in item.QuerySelectorAll("td"))
+                                values.Add(banks[b].getNameId());
+                                addCreditsAndContributions(values, type);
+                                values.Clear();
+                            }
+                            else if (i == 5)
                             {
-                                i++;
-                                if (i > 4)
+                                i = 0;
+                                values.Add(name);
+                                foreach (var row in item.QuerySelectorAll("td"))
                                 {
-                                    break;
+                                    i++;
+                                    if (i > 4)
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        str = row.InnerText;
+                                        str = str.Replace("&nbsp;", " ");
+                                        values.Add(str);
+                                    }
                                 }
-                                else
-                                {
-                                    str = row.InnerText;
-                                    str = str.Replace("&nbsp;", " ");
-                                    values.Add(str);
-                                }
+
+                                values.Add(banks[b].getNameId());
+                                addCreditsAndContributions(values, type);
+                                values.Clear();
+
                             }
-
-                            values.Add(banks[b].getNameId());
-                            addCreditsAndContributions(values, type);
-                            values.Clear();
-
+                            i = 0;
                         }
-                        i = 0;
+
+                        //foreach (string s in types)
+                        //{
+                        //    Console.WriteLine(s);
+                        //}
+                        Thread.Sleep(new Random().Next(60, 200));
+
                     }
-
-                    //foreach (string s in types)
-                    //{
-                    //    Console.WriteLine(s);
-                    //}
-                    Thread.Sleep(new Random().Next(60, 200));
-
                 }
+            }
+            catch (Exception e)
+            {
+
             }
         }
 
@@ -546,6 +570,25 @@ namespace bank_parser
 
             }
 
+            return count;
+        }
+
+        private int getCountOfBankFromSite()
+        {
+            int count = 0;
+            using (var request = new HttpRequest())
+            {
+                string content = request.Get("myfin.by/banki").ToString();//получение странницы
+                HtmlDocument doc = new HtmlDocument();// Присваиваем текстовой переменной k html-код              
+                doc.LoadHtml(content);// Загружаем в класс (парсер) наш html
+                
+                foreach (var item in doc.DocumentNode.QuerySelectorAll("table.rates-table-sort>tbody>tr"))
+                {
+                    count++;
+                }
+                
+                Thread.Sleep(new Random().Next(60, 200));
+            }
             return count;
         }
     }

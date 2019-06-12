@@ -1,5 +1,5 @@
-﻿create database SqlBankParserDB
-use SqlBankParserDB
+﻿create database BankParserDB
+use BankParserDB
 
 
 
@@ -86,3 +86,5 @@ select Сurrency.BuyCur, Сurrency.SellCur, Bank.NameB from Bank inner join Сur
 select Сurrency.NameCur, Сurrency.BuyCur, Сurrency.SellCur FROM Сurrency where Сurrency.NameCur = N'Евро'
 
 select Count(*) from Bank
+
+drop database SqlBankParserDB

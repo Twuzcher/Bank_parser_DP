@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using MetroFramework.Forms;
+using System.Threading;
+using MetroFramework;
 
 namespace bank_parser
 {
@@ -28,17 +30,28 @@ namespace bank_parser
         {
             if (!CheckForInternetConnection())
             {
-                MetroFramework.MetroMessageBox.Show(this, "Отсутствует интернет соединение, пожалуйста проверьте подключение к интернету!", "Отсутствует интернет соединение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MetroFramework.MetroMessageBox.Show(this, "Отсутствует интернет соединение, пожалуйста проверьте подключение к интернету!", "Отсутствует интернет соединение", MessageBoxButtons.OK, MessageBoxIcon.Question);
             }
             else if(CheckForInternetConnection())
             {
-                
-                MainForm mainForm = new MainForm();
-                Hide();
-                mainForm.ShowDialog();
-                Close();
+                metroLabel1.Visible = true;
+                metroLabel1.ForeColor = Color.Green;
+                metroButton1.Visible = false;
+                metroButton1.Visible = false;
+
+                //startParsing();
+
+                //Close();
             }
         }
+
+        private void startParsing()
+        {
+            MainForm mainForm = new MainForm();
+            Hide();
+            mainForm.ShowDialog();
+        }
+
 
         public bool CheckForInternetConnection()
         {

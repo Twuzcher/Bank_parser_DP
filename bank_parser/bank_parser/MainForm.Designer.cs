@@ -55,6 +55,7 @@
             this.cartesianChartCurrency = new LiveCharts.WinForms.CartesianChart();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.metroButtonMakeGraf = new MetroFramework.Controls.MetroButton();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.metroPanel3 = new MetroFramework.Controls.MetroPanel();
             this.metroLabelInfo = new MetroFramework.Controls.MetroLabel();
@@ -65,7 +66,6 @@
             this.metroBack = new MetroFramework.Controls.MetroButton();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
-            this.tabPage7 = new System.Windows.Forms.TabPage();
             this.metroTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.metroGridCred)).BeginInit();
@@ -94,6 +94,7 @@
             this.metroTabControl1.Name = "metroTabControl1";
             this.metroTabControl1.SelectedIndex = 0;
             this.metroTabControl1.Size = new System.Drawing.Size(990, 490);
+            this.metroTabControl1.Style = MetroFramework.MetroColorStyle.Green;
             this.metroTabControl1.TabIndex = 0;
             this.metroTabControl1.UseSelectable = true;
             // 
@@ -110,7 +111,7 @@
             // 
             this.metroGridCred.AllowUserToResizeRows = false;
             this.metroGridCred.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.metroGridCred.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.metroGridCred.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.metroGridCred.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.metroGridCred.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -155,7 +156,7 @@
             this.tabPage2.Controls.Add(this.metroGridCon);
             this.tabPage2.Location = new System.Drawing.Point(4, 38);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(983, 450);
+            this.tabPage2.Size = new System.Drawing.Size(982, 448);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Вклады";
             // 
@@ -163,7 +164,7 @@
             // 
             this.metroGridCon.AllowUserToResizeRows = false;
             this.metroGridCon.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.metroGridCon.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.metroGridCon.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.metroGridCon.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.metroGridCon.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -208,7 +209,7 @@
             this.tabPage3.Controls.Add(this.metroGridCur);
             this.tabPage3.Location = new System.Drawing.Point(4, 38);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(983, 450);
+            this.tabPage3.Size = new System.Drawing.Size(982, 448);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Валюта";
             // 
@@ -216,7 +217,7 @@
             // 
             this.metroGridCur.AllowUserToResizeRows = false;
             this.metroGridCur.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.metroGridCur.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.metroGridCur.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.metroGridCur.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.metroGridCur.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -261,7 +262,7 @@
             this.tabPage4.Controls.Add(this.metroGridDep);
             this.tabPage4.Location = new System.Drawing.Point(4, 38);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(983, 450);
+            this.tabPage4.Size = new System.Drawing.Size(982, 448);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Отделения";
             // 
@@ -269,7 +270,7 @@
             // 
             this.metroGridDep.AllowUserToResizeRows = false;
             this.metroGridDep.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.metroGridDep.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.metroGridDep.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.metroGridDep.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
             this.metroGridDep.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -314,7 +315,7 @@
             this.tabPage5.Controls.Add(this.metroPanel2);
             this.tabPage5.Location = new System.Drawing.Point(4, 38);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(983, 450);
+            this.tabPage5.Size = new System.Drawing.Size(982, 448);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Диаграмма валюты";
             // 
@@ -372,12 +373,20 @@
             this.metroButtonMakeGraf.UseSelectable = true;
             this.metroButtonMakeGraf.Click += new System.EventHandler(this.metroButtonMakeGraf_Click);
             // 
+            // tabPage7
+            // 
+            this.tabPage7.Location = new System.Drawing.Point(4, 38);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Size = new System.Drawing.Size(982, 448);
+            this.tabPage7.TabIndex = 6;
+            this.tabPage7.Text = "Конвертер";
+            // 
             // tabPage6
             // 
             this.tabPage6.Controls.Add(this.metroPanel3);
             this.tabPage6.Location = new System.Drawing.Point(4, 38);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(983, 450);
+            this.tabPage6.Size = new System.Drawing.Size(982, 448);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Информация о приложении";
             // 
@@ -401,7 +410,7 @@
             // 
             // metroLabelInfo
             // 
-            this.metroLabelInfo.BackColor = System.Drawing.Color.GreenYellow;
+            this.metroLabelInfo.BackColor = System.Drawing.Color.White;
             this.metroLabelInfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.metroLabelInfo.Location = new System.Drawing.Point(189, 3);
             this.metroLabelInfo.Name = "metroLabelInfo";
@@ -487,14 +496,6 @@
             this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
             this.metroPanel1.VerticalScrollbarSize = 15;
             // 
-            // tabPage7
-            // 
-            this.tabPage7.Location = new System.Drawing.Point(4, 38);
-            this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(983, 450);
-            this.tabPage7.TabIndex = 6;
-            this.tabPage7.Text = "Конвертер";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -512,6 +513,7 @@
             this.Name = "MainForm";
             this.Resizable = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.Style = MetroFramework.MetroColorStyle.Green;
             this.metroTabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.metroGridCred)).EndInit();

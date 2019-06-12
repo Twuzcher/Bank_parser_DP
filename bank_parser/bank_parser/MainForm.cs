@@ -56,7 +56,7 @@ namespace bank_parser
 
         public void btn_action(object sender, EventArgs e)//метод события по нажатию на добавленную кнопку
         {
-            MetroFramework.MetroMessageBox.Show(this, ((MetroButton)sender).Text, "Вы выбрали: ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MetroFramework.MetroMessageBox.Show(this, ((MetroButton)sender).Text, "Вы выбрали: ", MessageBoxButtons.OK, MessageBoxIcon.Question);
             parser.getDepartamentsFromDB(((MetroButton)sender).Name, metroGridDep);
             parser.getCurrencyFromDB(((MetroButton)sender).Name, metroGridCur);
             parser.getCreditFromDB(((MetroButton)sender).Name, metroGridCred);
@@ -72,7 +72,7 @@ namespace bank_parser
         {
             string name = metroComboBoxCurrency.Text;
 
-            MetroMessageBox.Show(this, "Вы выбрали: " + name, "Составление графика!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MetroMessageBox.Show(this, "Вы выбрали: " + name, "Составление графика!", MessageBoxButtons.OK, MessageBoxIcon.Question);
 
             DataTable table = new DataTable();
             try
