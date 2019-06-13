@@ -16,90 +16,25 @@ namespace bank_parser
 {
     public partial class Form1 : MetroForm
     {
-        BackgroundWorker bg;
+        MainForm main;
+        public bool check;
 
         public Form1()
         {
             InitializeComponent();
-            bg = new BackgroundWorker();
-            bg.DoWork += new DoWorkEventHandler(bg_DoWork);
-            bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bg_RunWorkerCompleted);
-            
+            check = false;
+        }
+
+        public Form1(MainForm main)
+        {
+            InitializeComponent();
+            check = false;
+            this.main = main;
         }
 
         private void metroButton2_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void metroButton1_Click(object sender, EventArgs e)
-        {
-            if (!CheckForInternetConnection())
-            {
-                MetroFramework.MetroMessageBox.Show(this, "Отсутствует интернет соединение, пожалуйста проверьте подключение к интернету!", "Отсутствует интернет соединение", MessageBoxButtons.OK, MessageBoxIcon.Question);
-            }
-            else if(CheckForInternetConnection())
-            {
-                
-                metroButton1.Visible = false;
-                metroButton1.Visible = false;
-
-                startParsing();
-
-                
-            }
-        }
-
-        private delegate void updateProgressDelegate();
-
-        private async void startParsing()
-        {
-
-            //Thread t = new Thread(new ThreadStart(StartNewStaThread));
-            //// Make sure to set the apartment state BEFORE starting the thread. 
-            //t.ApartmentState = ApartmentState.STA;
-            //t.Start();   
-            bg.RunWorkerAsync();
-
-        }
-
-        void bg_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (!bg.IsBusy)
-            {
-                MetroMessageBox.Show(this, "Загрузка началась!", "Загрузка", MessageBoxButtons.OK, MessageBoxIcon.Question);
-            }
-                
-        }
-
-        void bg_DoWork(object sender, DoWorkEventArgs e)
-        {
-            Invoke(new updateProgressDelegate(doUpdate));
-            Thread t = new Thread(new ThreadStart(StartNewStaThread));
-            // Make sure to set the apartment state BEFORE starting the thread. 
-            t.ApartmentState = ApartmentState.STA;
-            t.Start();
-            
-        }
-
-        void doUpdate()
-        {
-            metroLabel1.Visible = true;
-            metroProgressSpinner1.Visible = true;
-            metroProgressSpinner1.Enabled = true;
-        }
-
-        private void StartNewStaThread()
-        {
-            Application.Run(new MainForm());
-            try
-            {
-                Invoke((MethodInvoker)delegate () { Close(); });
-            }
-            catch (Exception e)
-            {
-
-            }
         }
 
         public bool CheckForInternetConnection()
@@ -118,11 +53,57 @@ namespace bank_parser
             }
         }
 
+        private void metroButton1_Click(object sender, EventArgs e)
+        {
+            if (!CheckForInternetConnection())
+            {
+                MetroFramework.MetroMessageBox.Show(this, "Отсутствует интернет соединение, пожалуйста проверьте подключение к интернету!", "Отсутствует интернет соединение", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            }
+            else
+            {
+                metroButton1.Visible = false;
+                metroButton2.Visible = false;
+                metroLabel1.Visible = true;
+                metroProgressSpinner1.Visible = true;
+                check = true;
+                
+                backgroundWorker1.RunWorkerAsync();
+             
+            }
+        }
+
+       
+
         private void Form1_Load(object sender, EventArgs e)
         {
             
         }
 
-        
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            main.start();
+            while (check)
+            {
+                if (check == false)
+                {
+                    break;
+                }
+       
+            }
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (!check)
+            {
+                MetroMessageBox.Show(this, "Загрузка завершена!", "Информация полученна!", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                Close();
+            }
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -23,22 +23,51 @@ namespace bank_parser
         List<Functions.Bank> banks;
         Parser parser;
         AddButtonToPanel add;
+        Form1 load;
+
 
         public MainForm()
         {
             InitializeComponent();
+            
+            
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            load = new Form1(this);
+            Hide();
+            load.ShowDialog();    
+
+        }
+
+        public void start()
+        {
+            if (load.check == true)
+            {
+                MetroMessageBox.Show(this, "Загрузка началась!", "Информация загружаеться!", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                startApp();
+                load.check = false;
+                metroPanel1.AutoScroll = true;
+                add = new AddButtonToPanel(metroPanel1);//объект класса для добвления кнопок
+                addButtons(add); //вызов метода добавления кнопок на панель 
+                cartesianChartCurrency.Visible = false;
+                cartesianChartCurrency.BeginInvoke((MethodInvoker)(() => parser.getListOfCurrency(metroComboBoxCurrency)));
+                
+            }
+        }
+
+        private void startApp()
+        {
             parser = new Parser();
             banks = parser.getBanksNames();
             MessageBox.Show(parser.getCountOfBanks().ToString(), "hi", MessageBoxButtons.OK);
             MessageBox.Show(parser.getBankId("belinvestbank"), "hi", MessageBoxButtons.OK);
-            metroPanel1.AutoScroll = true;
-            add = new AddButtonToPanel(metroPanel1);//объект класса для добвления кнопок
-            addButtons(add); //вызов метода добавления кнопок на панель          
-            cartesianChartCurrency.Visible = false;
-            parser.getListOfCurrency(metroComboBoxCurrency);
-            //cartesianChartCurrency.DisableAnimations = true; });
-            
-        }   
+            load.check = false;
+
+
+            //cartesianChartCurrency.DisableAnimations = true; });  
+        }
 
         public void addButtons(AddButtonToPanel add) //метод, добавляющий кнопки
         {
@@ -46,11 +75,20 @@ namespace bank_parser
             {
                 for (int i = 0; i < banks.Count; i++)
                 {
-                    add.AddButton(banks[i].getName(), banks[i].getNameId(), btn_action);
+                    MessageBox.Show(""+i,""+banks.Count,MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
+                    metroPanel1.BeginInvoke((MethodInvoker)(() => add.AddButton(banks[i].getName(), banks[i].getNameId(), btn_action)));
+
+                    if (i == banks.Count - 1)
+                    {
+                        break;
+                    }
+
                 }
             }
             catch (Exception e)
             {
+                MetroFramework.MetroMessageBox.Show(this, "Error: " + e.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 MetroFramework.MetroMessageBox.Show(this, "Не удалось получить информацию о банках, проверьте интернет соединение и попробуйте перезапустить программу!", "Проверьте интернет соединение!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
@@ -136,5 +174,7 @@ namespace bank_parser
         {
             metroLabelInfo.Text = "Цацура Никита Юрьевич, 12 декабря 1999 года рождения. Разработчик. На момент разработки проходил обучение в Колледже бизнеса и права, город Минск.";
         }
+
+        
     }
 }

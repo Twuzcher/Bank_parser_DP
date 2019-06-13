@@ -24,16 +24,23 @@ namespace bank_parser
 
         public void AddButton(string text, string name, EventHandler method)//само добавление
         {
-            MetroFramework.Controls.MetroButton newButton = new MetroFramework.Controls.MetroButton();
+            try
             {
-                newButton.Name = string.Format(name);
-                newButton.Text = string.Format(text);
-                newButton.Location = new System.Drawing.Point(2, xlocation);
-                newButton.Size = new System.Drawing.Size(132, 55);
-                newButton.Click += method;
-                metro.Controls.Add(newButton);
+                MetroFramework.Controls.MetroButton newButton = new MetroFramework.Controls.MetroButton();
+                {
+                    newButton.Name = string.Format(name);
+                    newButton.Text = string.Format(text);
+                    newButton.Location = new System.Drawing.Point(2, xlocation);
+                    newButton.Size = new System.Drawing.Size(132, 55);
+                    newButton.Click += method;
+                    metro.Controls.Add(newButton);
+                }
+                xlocation += 55;
             }
-            xlocation += 55;
+            catch (Exception e)
+            {
+                MessageBox.Show("Error: " + e.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
     }
