@@ -36,8 +36,9 @@ namespace bank_parser
             addButtons(add); //вызов метода добавления кнопок на панель          
             cartesianChartCurrency.Visible = false;
             parser.getListOfCurrency(metroComboBoxCurrency);
-            //cartesianChartCurrency.DisableAnimations = true;
-        }
+            //cartesianChartCurrency.DisableAnimations = true; });
+            
+        }   
 
         public void addButtons(AddButtonToPanel add) //метод, добавляющий кнопки
         {
@@ -65,6 +66,7 @@ namespace bank_parser
 
         private void metroBack_Click(object sender, EventArgs e)
         {
+
             Close();
         }
 

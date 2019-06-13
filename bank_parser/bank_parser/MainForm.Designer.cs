@@ -52,7 +52,7 @@
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.metroPanel2 = new MetroFramework.Controls.MetroPanel();
             this.metroComboBoxCurrency = new MetroFramework.Controls.MetroComboBox();
-            this.cartesianChartCurrency = new LiveCharts.WinForms.CartesianChart();
+            this.cartesianChartCurrency = new LiveCharts.WinForms.CartesianChart();//здечь ошибка
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.metroButtonMakeGraf = new MetroFramework.Controls.MetroButton();
             this.tabPage7 = new System.Windows.Forms.TabPage();

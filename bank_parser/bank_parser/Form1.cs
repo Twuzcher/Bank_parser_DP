@@ -16,9 +16,15 @@ namespace bank_parser
 {
     public partial class Form1 : MetroForm
     {
+        BackgroundWorker bg;
+
         public Form1()
         {
             InitializeComponent();
+            bg = new BackgroundWorker();
+            bg.DoWork += new DoWorkEventHandler(bg_DoWork);
+            bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bg_RunWorkerCompleted);
+            
         }
 
         private void metroButton2_Click(object sender, EventArgs e)
@@ -34,24 +40,59 @@ namespace bank_parser
             }
             else if(CheckForInternetConnection())
             {
-                metroLabel1.Visible = true;
-                metroLabel1.ForeColor = Color.Green;
+                
                 metroButton1.Visible = false;
                 metroButton1.Visible = false;
 
-                //startParsing();
+                startParsing();
 
-                //Close();
+                
             }
         }
 
-        private void startParsing()
+        private delegate void updateProgressDelegate();
+
+        private async void startParsing()
         {
-            MainForm mainForm = new MainForm();
-            Hide();
-            mainForm.ShowDialog();
+
+            //Thread t = new Thread(new ThreadStart(StartNewStaThread));
+            //// Make sure to set the apartment state BEFORE starting the thread. 
+            //t.ApartmentState = ApartmentState.STA;
+            //t.Start();   
+            bg.RunWorkerAsync();
+
         }
 
+        void bg_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (!bg.IsBusy)
+            {
+                MetroMessageBox.Show(this, "Загрузка началась!", "Загрузка", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            }
+                
+        }
+
+        void bg_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Invoke(new updateProgressDelegate(doUpdate));
+            Thread t = new Thread(new ThreadStart(StartNewStaThread));
+            // Make sure to set the apartment state BEFORE starting the thread. 
+            t.ApartmentState = ApartmentState.STA;
+            t.Start();
+        }
+
+        void doUpdate()
+        {
+            metroLabel1.Visible = true;
+            metroProgressSpinner1.Visible = true;
+            metroProgressSpinner1.Enabled = true;
+        }
+
+        private void StartNewStaThread()
+        {
+            Application.Run(new MainForm());
+            Invoke((MethodInvoker)delegate () { Close(); });
+        }
 
         public bool CheckForInternetConnection()
         {
@@ -68,5 +109,12 @@ namespace bank_parser
                 return false;
             }
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            
+        }
+
+        
     }
 }
