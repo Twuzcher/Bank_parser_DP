@@ -79,6 +79,7 @@ namespace bank_parser
             // Make sure to set the apartment state BEFORE starting the thread. 
             t.ApartmentState = ApartmentState.STA;
             t.Start();
+            
         }
 
         void doUpdate()
@@ -91,7 +92,14 @@ namespace bank_parser
         private void StartNewStaThread()
         {
             Application.Run(new MainForm());
-            Invoke((MethodInvoker)delegate () { Close(); });
+            try
+            {
+                Invoke((MethodInvoker)delegate () { Close(); });
+            }
+            catch (Exception e)
+            {
+
+            }
         }
 
         public bool CheckForInternetConnection()
