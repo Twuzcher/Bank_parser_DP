@@ -97,6 +97,7 @@ namespace bank_parser
             if (!check)
             {
                 MetroMessageBox.Show(this, "Загрузка завершена!", "Информация полученна!", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                backgroundWorker1.CancelAsync();
                 Close();
             }
         }
