@@ -60,8 +60,15 @@ constraint IndexBCur_FK foreign key(IndexB) references Bank(IndexB)
 )
 
 select * from Bank
-drop table Bank
-drop table Сurrency
-drop table Departament
-drop table Contribution
-drop table Credit
+select * from Сurrency
+select * from Departament
+select * from Credit
+select * from Contribution
+--drop table Bank
+--drop table Сurrency
+--drop table Departament
+--drop table Contribution
+--drop table Credit
+
+select Сurrency.BuyCur, Сurrency.SellCur, Bank.NameB from Bank join Сurrency on Bank.IndexB = Сurrency.IndexB where Currency.NameCur = N'Евро'
+select Сurrency.BuyCur, Сurrency.SellCur, Bank.NameB from Bank inner join Сurrency on Bank.IndexB = Сurrency.IndexB where NameCur like N'Евро'

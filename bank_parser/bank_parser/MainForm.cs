@@ -117,10 +117,11 @@ namespace bank_parser
             DataTable table = new DataTable();
             try
             {
-                using (SqlDataAdapter da = new SqlDataAdapter(@"select Сurrency.BuyCur, Сurrency.SellCur FROM Сurrency where Сurrency.NameCur = N'" + name + "'", parser.getSqlConnection()))
+                using (SqlDataAdapter da = new SqlDataAdapter(@"select Сurrency.BuyCur, Сurrency.SellCur, Bank.NameB from Bank inner join Сurrency on Bank.IndexB = Сurrency.IndexB where NameCur like N'" + name + "'", parser.getSqlConnection()))
                 {
                     da.Fill(table);
                     name = table.Rows[0][0].ToString();
+                    int n = table.Rows.Count;
                     cartesianChartCurrency.Series = new SeriesCollection()
                     {
                         new LineSeries()
@@ -133,16 +134,31 @@ namespace bank_parser
                             Title = "Продать",
                             Values = new ChartValues<double>()
                         }
-                    };
+                    };                   
                     
+                    cartesianChartCurrency.AxisX.Add(new Axis
+                    {
+                        IsMerged = true,
+                        Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 250, 250)),
+                        Separator = new Separator
+                        {
+                            StrokeThickness = 1,
+                            StrokeDashArray = new System.Windows.Media.DoubleCollection(new double[] { 0 }),
+                        },
+                        Labels = new ChartValues<string>()       
+                    });
                     double db = 0;
+                    string str = String.Empty;
                     for (int i = 0; i < table.Rows.Count; i++)
                     {
                         db = Convert.ToDouble((table.Rows[i][0].ToString()), NumberFormatInfo.InvariantInfo);                       
                         cartesianChartCurrency.Series[0].Values.Add(db);
                         db = Convert.ToDouble((table.Rows[i][1].ToString()), NumberFormatInfo.InvariantInfo);                       
                         cartesianChartCurrency.Series[1].Values.Add(db);
+                        str = Convert.ToString((table.Rows[i][2].ToString()), NumberFormatInfo.InvariantInfo);
+                        cartesianChartCurrency.AxisX[0].Labels.Add(str);
                         db = 0;
+                        str = String.Empty;
                     }
 
                 }
