@@ -134,18 +134,20 @@ namespace bank_parser
                             Title = "Продать",
                             Values = new ChartValues<double>()
                         }
-                    };                   
-                    
+                    };
+
                     cartesianChartCurrency.AxisX.Add(new Axis
                     {
+                        Title = "Банки",
                         IsMerged = true,
                         Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 250, 250)),
+                        LabelsRotation = -90,
                         Separator = new Separator
                         {
                             StrokeThickness = 1,
-                            StrokeDashArray = new System.Windows.Media.DoubleCollection(new double[] { 0 }),
+                            StrokeDashArray = new System.Windows.Media.DoubleCollection(new double[] { 1 })                          
                         },
-                        Labels = new ChartValues<string>()       
+                        Labels = new ChartValues<string>()
                     });
                     double db = 0;
                     string str = String.Empty;
