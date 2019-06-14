@@ -51,8 +51,7 @@ namespace bank_parser
                 metroPanel1.AutoScroll = true;
                 add = new AddButtonToPanel(metroPanel1);//объект класса для добвления кнопок
                 MetroMessageBox.Show(this, ""+metroPanel1.Controls.Count, "Колво кнопок!", MessageBoxButtons.OK, MessageBoxIcon.Question);
-                addButtons(add); //вызов метода добавления кнопок на панель 
-                
+                addButtons(add); //вызов метода добавления кнопок на панель                
                 cartesianChartCurrency.BeginInvoke((MethodInvoker)(() => parser.getListOfCurrency(metroComboBoxCurrency)));
                 cartesianChartCurrency.BeginInvoke((MethodInvoker)(() => parser.getListOfCitys(metroComboBoxCitys)));
             }
@@ -77,8 +76,9 @@ namespace bank_parser
                 int i = 0;
                 for (i = 0; i < banks.Count; i++)
                 {
-                    MessageBox.Show(i+"; "+banks[i].getName()+"; "+banks[i].getNameId(),""+banks.Count,MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    metroPanel1.BeginInvoke((MethodInvoker)(() => add.AddButton(banks[i-1].getName(), banks[i-1].getNameId(), btn_action)));
+                    string name = banks[i].getName();
+                    string nameId = banks[i].getNameId(); 
+                    metroPanel1.BeginInvoke((MethodInvoker)(() => add.AddButton(name, nameId, btn_action)));
                 }
 
             }

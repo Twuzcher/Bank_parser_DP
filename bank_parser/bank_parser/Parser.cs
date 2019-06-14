@@ -596,8 +596,8 @@ namespace bank_parser
         public string getBestResultCurrency(string currency)
         {
             string str = String.Empty;
-
-            SqlDataAdapter sqlDA = new SqlDataAdapter("select Сurrency.BuyCur, Сurrency.SellCur, Сurrency.UpdateTime, Bank.NameB from Bank inner join Сurrency on Bank.IndexB = Сurrency.IndexB where Сurrency.NameCur = '" + currency + "'", sqlCon);
+            
+            SqlDataAdapter sqlDA = new SqlDataAdapter("select Сurrency.BuyCur, Сurrency.SellCur, Сurrency.UpdateTime, Bank.NameB from Bank inner join Сurrency on Bank.IndexB = Сurrency.IndexB where Сurrency.NameCur = N'" + currency + "'", sqlCon);
             SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
             try
             {
@@ -612,12 +612,12 @@ namespace bank_parser
                     if (maxBuy < Convert.ToInt32(ds.Tables[0].Rows[i][0].ToString()))
                     {
                         maxBuy = Convert.ToInt32(ds.Tables[0].Rows[i][0].ToString());
-                        bankAndtimeMax = ds.Tables[0].Rows[i][2].ToString() + "; время обновления: " + ds.Tables[0].Rows[i][3].ToString();
+                        bankAndtimeMax = ds.Tables[0].Rows[i][3].ToString() + "; время обновления: " + ds.Tables[0].Rows[i][2].ToString();
                     }
                     if (minSell > Convert.ToInt32(ds.Tables[0].Rows[i][1].ToString()))
                     {
                         minSell = Convert.ToInt32(ds.Tables[0].Rows[i][1].ToString());
-                        bankAndtimeMin = ds.Tables[0].Rows[i][2].ToString() + "; время обновления: " + ds.Tables[0].Rows[i][3].ToString();
+                        bankAndtimeMin = ds.Tables[0].Rows[i][3].ToString() + "; время обновления: " + ds.Tables[0].Rows[i][2].ToString();
                     }
                 }
                 str = bankAndtimeMax + "; " + maxBuy + "\n" + bankAndtimeMin + "; " + minSell;
