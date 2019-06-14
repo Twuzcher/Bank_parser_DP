@@ -463,9 +463,10 @@ namespace bank_parser
 
         public void getDepartamentsFromDB(string name, MetroFramework.Controls.MetroGrid grid) //выгрузка отделений из бд
         {
-            SqlDataAdapter sqlDA = new SqlDataAdapter("select Departament.NameD, Departament.AddressD, Departament.PhonesD, Departament.WorkTimeD, Departament.CloseTimeD, Departament.CityD, Bank.NameB from Bank inner join Departament on Bank.IndexB = Departament.IndexB where Bank.NameIdB = '" + name +"'", sqlCon);
+            SqlDataAdapter sqlDA = new SqlDataAdapter("select Departament.NameD as 'Название отделения', Departament.AddressD as 'Адрес', Departament.PhonesD as 'Телефон(ы)', Departament.WorkTimeD as 'Рабочее время', Departament.CloseTimeD as 'Время до закрытия/открытия', Departament.CityD as 'Город', Bank.NameB as 'Банк' from Bank inner join Departament on Bank.IndexB = Departament.IndexB where Bank.NameIdB = '" + name +"'", sqlCon);
             SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
             //DataSet ds = new DataSet();
+            //select Departament.NameD as 'Название отделения', Departament.AddressD as 'Адрес', Departament.PhonesD as 'Телефон(ы)', Departament.WorkTimeD as 'Рабочее время', Departament.CloseTimeD as 'Время до закрытия/открытия', Departament.CityD as 'Город', Bank.NameB as 'Банк' from Bank inner join Departament on Bank.IndexB = Departament.IndexB where Bank.NameIdB =
             try
             {
                 DataSet ds = new DataSet();
@@ -480,7 +481,8 @@ namespace bank_parser
 
         public void getCurrencyFromDB(string name, MetroFramework.Controls.MetroGrid grid) //выгрузка валюты из бд
         {
-            SqlDataAdapter sqlDA = new SqlDataAdapter("select Сurrency.NameCur, Сurrency.BuyCur, Сurrency.SellCur, Сurrency.NB_RB, Сurrency.UpdateTime, Bank.NameB from Bank inner join Сurrency on Bank.IndexB = Сurrency.IndexB where Bank.NameIdB = '" + name + "'", sqlCon);
+            //select Сurrency.NameCur as 'Название валюты', Сurrency.BuyCur as 'Покупка', Сurrency.SellCur as 'Продажа', Сurrency.NB_RB as 'Национальный банк', Сurrency.UpdateTime as 'Время обновления', Bank.NameB as 'Банк' from Bank inner join Сurrency on Bank.IndexB = Сurrency.IndexB where Bank.NameIdB =
+            SqlDataAdapter sqlDA = new SqlDataAdapter("select Сurrency.NameCur as 'Название валюты', Сurrency.BuyCur as 'Покупка', Сurrency.SellCur as 'Продажа', Сurrency.NB_RB as 'Национальный банк', Сurrency.UpdateTime as 'Время обновления', Bank.NameB as 'Банк' from Bank inner join Сurrency on Bank.IndexB = Сurrency.IndexB where Bank.NameIdB = '" + name + "'", sqlCon);
             SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
             try
             {
@@ -496,7 +498,8 @@ namespace bank_parser
 
         public void getCreditFromDB(string name, MetroFramework.Controls.MetroGrid grid) //выгрузка кредитов из бд
         {
-            SqlDataAdapter sqlDA = new SqlDataAdapter("select Credit.NameCr, Credit.Valuta, Credit.Summa, Credit.Srok, Credit.Protsent, Bank.NameB from Bank inner join Credit on Bank.IndexB = Credit.IndexB where Bank.NameIdB = '" + name + "'", sqlCon);
+            //select Credit.NameCr as 'Название кредита', Credit.Valuta as 'Валюта', Credit.Summa as 'Сумма', Credit.Srok as 'Срок', Credit.Protsent as 'Процент %', Bank.NameB as 'Банк' from Bank inner join Credit on Bank.IndexB = Credit.IndexB where Bank.NameIdB =
+            SqlDataAdapter sqlDA = new SqlDataAdapter("select Credit.NameCr as 'Название кредита', Credit.Valuta as 'Валюта', Credit.Summa as 'Сумма', Credit.Srok as 'Срок', Credit.Protsent as 'Процент %', Bank.NameB as 'Банк' from Bank inner join Credit on Bank.IndexB = Credit.IndexB where Bank.NameIdB = '" + name + "'", sqlCon);
             SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
             try
             {
@@ -512,7 +515,8 @@ namespace bank_parser
 
         public void getContributionFromDB(string name, MetroFramework.Controls.MetroGrid grid) //выгрузка вкладов из бд
         {
-            SqlDataAdapter sqlDA = new SqlDataAdapter("select Contribution.NameC, Contribution.Valuta, Contribution.Summa, Contribution.Srok, Contribution.Protsent, Bank.NameB from Bank inner join Contribution on Bank.IndexB = Contribution.IndexB where Bank.NameIdB = '" + name + "'", sqlCon);
+            //select Contribution.NameC as 'Название вклада', Contribution.Valuta as 'Валюта', Contribution.Summa as 'Сумма', Contribution.Srok as 'Срок', Contribution.Protsent as 'Процент %', Bank.NameB as 'Банк' from Bank inner join Contribution on Bank.IndexB = Contribution.IndexB where Bank.NameIdB =
+            SqlDataAdapter sqlDA = new SqlDataAdapter("select Contribution.NameC as 'Название вклада', Contribution.Valuta as 'Валюта', Contribution.Summa as 'Сумма', Contribution.Srok as 'Срок', Contribution.Protsent as 'Процент %', Bank.NameB as 'Банк' from Bank inner join Contribution on Bank.IndexB = Contribution.IndexB where Bank.NameIdB = '" + name + "'", sqlCon);
             SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
             try
             {
