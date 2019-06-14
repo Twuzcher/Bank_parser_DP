@@ -52,7 +52,7 @@ namespace bank_parser
                 add = new AddButtonToPanel(metroPanel1);//объект класса для добвления кнопок
                 MetroMessageBox.Show(this, ""+metroPanel1.Controls.Count, "Колво кнопок!", MessageBoxButtons.OK, MessageBoxIcon.Question);
                 addButtons(add); //вызов метода добавления кнопок на панель 
-                cartesianChartCurrency.Visible = false;
+                
                 cartesianChartCurrency.BeginInvoke((MethodInvoker)(() => parser.getListOfCurrency(metroComboBoxCurrency)));
                 cartesianChartCurrency.BeginInvoke((MethodInvoker)(() => parser.getListOfCitys(metroComboBoxCitys)));
             }
@@ -78,11 +78,9 @@ namespace bank_parser
                 for (i = 0; i < banks.Count; i++)
                 {
                     MessageBox.Show(i+"; "+banks[i].getName()+"; "+banks[i].getNameId(),""+banks.Count,MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                     metroPanel1.BeginInvoke((MethodInvoker)(() => add.AddButton(banks[i-1].getName(), banks[i-1].getNameId(), btn_action)));
-
-
                 }
+
             }
             catch (Exception e)
             {
@@ -167,7 +165,7 @@ namespace bank_parser
             }
             catch (Exception en)
             {
-               // MetroMessageBox.Show(this, en.ToString(), "Double", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, en.ToString(), "Double", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
             cartesianChartCurrency.Visible = true;
@@ -201,6 +199,11 @@ namespace bank_parser
         private void metroButtonBack_Click(object sender, EventArgs e)
         {
             parser.getDepartamentsFromDB(nameOfCurrentBank, metroGridDep);
+        }
+
+        private void metroButton1_Click(object sender, EventArgs e)
+        {
+            MetroMessageBox.Show(this, parser.getBestResultCurrency(metroComboBoxCurrency.Text), "Результат: ", MessageBoxButtons.OK, MessageBoxIcon.Question);
         }
     }
 }
