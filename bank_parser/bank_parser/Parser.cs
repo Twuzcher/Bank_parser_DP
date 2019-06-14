@@ -535,9 +535,9 @@ namespace bank_parser
             return sqlCon;
         }
 
-        public string getListOfCurrency(MetroComboBox box)
+        public void getListOfCurrency(MetroComboBox box)
         {
-            string currency = String.Empty;
+            
             SqlDataAdapter sqlDA = new SqlDataAdapter("Select NameCur from Сurrency Group by NameCur order by NameCur", sqlCon);
             SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
             //DataSet ds = new DataSet();
@@ -552,7 +552,45 @@ namespace bank_parser
             {
 
             }
-            return currency;
+            
+        }
+
+        public void getListOfCitys(MetroComboBox box)
+        {
+        
+            SqlDataAdapter sqlDA = new SqlDataAdapter("Select CityD from Departament Group by CityD order by CityD", sqlCon);
+            SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
+            //DataSet ds = new DataSet();
+            try
+            {
+                DataSet ds = new DataSet();
+                sqlDA.Fill(ds);
+                box.DisplayMember = "CityD";
+                box.DataSource = ds.Tables[0];
+            }
+            catch (Exception ex)
+            {
+
+            }
+    
+        }
+
+        public void getDepartamentsFromDbWithCity(string name, string city, MetroFramework.Controls.MetroGrid grid)
+        {
+            SqlDataAdapter sqlDA = new SqlDataAdapter("select Departament.NameD as 'Название отделения', Departament.AddressD as 'Адрес', Departament.PhonesD as 'Телефон(ы)', Departament.WorkTimeD as 'Рабочее время', Departament.CloseTimeD as 'Время до закрытия/открытия', Departament.CityD as 'Город', Bank.NameB as 'Банк' from Bank inner join Departament on Bank.IndexB = Departament.IndexB where Bank.NameIdB = '" + name + "' and Departament.CityD = '" + city + "'", sqlCon);
+            SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
+            //DataSet ds = new DataSet();
+            //select Departament.NameD as 'Название отделения', Departament.AddressD as 'Адрес', Departament.PhonesD as 'Телефон(ы)', Departament.WorkTimeD as 'Рабочее время', Departament.CloseTimeD as 'Время до закрытия/открытия', Departament.CityD as 'Город', Bank.NameB as 'Банк' from Bank inner join Departament on Bank.IndexB = Departament.IndexB where Bank.NameIdB =
+            try
+            {
+                DataSet ds = new DataSet();
+                sqlDA.Fill(ds);
+                grid.DataSource = ds.Tables[0];
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public int getCountOfBanks()

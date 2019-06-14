@@ -24,7 +24,7 @@ namespace bank_parser
         Parser parser;
         AddButtonToPanel add;
         Form1 load;
-
+        string nameOfCurrentBank;
 
         public MainForm()
         {
@@ -54,9 +54,7 @@ namespace bank_parser
                 addButtons(add); //вызов метода добавления кнопок на панель 
                 cartesianChartCurrency.Visible = false;
                 cartesianChartCurrency.BeginInvoke((MethodInvoker)(() => parser.getListOfCurrency(metroComboBoxCurrency)));
-                
-
-
+                cartesianChartCurrency.BeginInvoke((MethodInvoker)(() => parser.getListOfCitys(metroComboBoxCitys)));
             }
         }
 
@@ -96,6 +94,7 @@ namespace bank_parser
         public void btn_action(object sender, EventArgs e)//метод события по нажатию на добавленную кнопку
         {
             MetroFramework.MetroMessageBox.Show(this, ((MetroButton)sender).Text, "Вы выбрали: ", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            nameOfCurrentBank = ((MetroButton)sender).Name;
             parser.getDepartamentsFromDB(((MetroButton)sender).Name, metroGridDep);
             parser.getCurrencyFromDB(((MetroButton)sender).Name, metroGridCur);
             parser.getCreditFromDB(((MetroButton)sender).Name, metroGridCred);
@@ -143,8 +142,8 @@ namespace bank_parser
                         //LabelsRotation = -90,                       
                         Separator = new Separator
                         {
-                            StrokeThickness = 0.1,
-                            StrokeDashArray = new System.Windows.Media.DoubleCollection(new double[] { 0.1 })
+                            StrokeThickness = 1,
+                            StrokeDashArray = new System.Windows.Media.DoubleCollection(new double[] { 1 })
                         },
                         Labels = new ChartValues<string>(),                       
                     });
@@ -194,6 +193,14 @@ namespace bank_parser
             metroLabelInfo.Text = "Цацура Никита Юрьевич, 12 декабря 1999 года рождения. Разработчик. На момент разработки проходил обучение в Колледже бизнеса и права, город Минск.";
         }
 
-        
+        private void metroButtonEnterCity_Click(object sender, EventArgs e)
+        {
+            parser.getDepartamentsFromDbWithCity(nameOfCurrentBank, metroComboBoxCitys.Text, metroGridDep);
+        }
+
+        private void metroButtonBack_Click(object sender, EventArgs e)
+        {
+            parser.getDepartamentsFromDB(nameOfCurrentBank, metroGridDep);
+        }
     }
 }
