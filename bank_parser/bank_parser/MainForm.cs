@@ -137,19 +137,19 @@ namespace bank_parser
                     };
 
                     cartesianChartCurrency.AxisX.Add(new Axis
-                    {
-                       
-                        IsMerged = true,
+                    {                       
+                        IsMerged = true,                   
                         Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 0, 0)),
-                        //LabelsRotation = -90,
-                        //Separator = new Separator
-                        //{
-                        //    StrokeThickness = 1,
-                        //    StrokeDashArray = new System.Windows.Media.DoubleCollection(new double[] { 1 })                          
-                        //},
-                        Labels = new ChartValues<string>(),
-                        LabelsRotation = -90
+                        //LabelsRotation = -90,                       
+                        Separator = new Separator
+                        {
+                            StrokeThickness = 0.1,
+                            StrokeDashArray = new System.Windows.Media.DoubleCollection(new double[] { 0.1 })
+                        },
+                        Labels = new ChartValues<string>(),                       
                     });
+                    //cartesianChartCurrency.AxisX[0].LabelsRotation = -90;
+                    
                     double db = 0;
                     string str = String.Empty;
                     for (int i = 0; i < table.Rows.Count; i++)
