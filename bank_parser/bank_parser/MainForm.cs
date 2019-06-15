@@ -203,7 +203,41 @@ namespace bank_parser
 
         private void metroButton1_Click(object sender, EventArgs e)
         {
-            MetroMessageBox.Show(this, parser.getBestResultCurrency(metroComboBoxCurrency.Text), "Результат: ", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            string str = String.Empty;
+
+            SqlDataAdapter sqlDA = new SqlDataAdapter("select Сurrency.BuyCur, Сurrency.SellCur, Сurrency.UpdateTime, Bank.NameB from Bank inner join Сurrency on Bank.IndexB = Сurrency.IndexB where Сurrency.NameCur = N'" + metroComboBoxCurrency.Text + "'", parser.getSqlConnection());
+            SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
+            //try
+            //{
+                DataSet ds = new DataSet();
+                sqlDA.Fill(ds);
+                string bankAndtimeMin = String.Empty;
+                double minSell = Convert.ToDouble(ds.Tables[0].Rows[0][1].ToString());
+                MessageBox.Show(minSell.ToString(), "Hi", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                string bankAndtimeMax = String.Empty;
+                double maxBuy = 0;
+                for (int j = 0; j < ds.Tables[0].Rows.Count; j++)
+                {
+                    if (maxBuy < Convert.ToDouble(ds.Tables[0].Rows[j][0].ToString()))
+                    {
+                        maxBuy = Convert.ToDouble(ds.Tables[0].Rows[j][0].ToString());
+                        bankAndtimeMax = ds.Tables[0].Rows[j][3].ToString() + "; время обновления: " + ds.Tables[0].Rows[j][2].ToString();
+                        MessageBox.Show(bankAndtimeMax, "Hi", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    }
+                    if (minSell > Convert.ToDouble(ds.Tables[0].Rows[j][1].ToString()))
+                    {
+                        minSell = Convert.ToDouble(ds.Tables[0].Rows[j][1].ToString());
+                        bankAndtimeMin = ds.Tables[0].Rows[j][3].ToString() + "; время обновления: " + ds.Tables[0].Rows[j][2].ToString();
+                        MessageBox.Show(bankAndtimeMin, "Hi", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    }
+                }
+                str = bankAndtimeMax + "; " + maxBuy + "\n" + bankAndtimeMin + "; " + minSell;
+                MessageBox.Show(str, "Hi", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.ToString(), "Hi", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            //}
         }
     }
 }
