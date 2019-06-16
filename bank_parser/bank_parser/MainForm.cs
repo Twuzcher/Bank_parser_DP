@@ -201,7 +201,7 @@ namespace bank_parser
             parser.getDepartamentsFromDB(nameOfCurrentBank, metroGridDep);
         }
 
-        private void metroButton1_Click(object sender, EventArgs e)
+        private void metroButton1_Click(object sender, EventArgs e) //найти выгодную покупку продажу по выбранной валюте
         {
             string str = String.Empty;
 
