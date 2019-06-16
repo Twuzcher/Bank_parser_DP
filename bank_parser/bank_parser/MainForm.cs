@@ -15,6 +15,7 @@ using System.Data.SqlClient;
 using LiveCharts;
 using LiveCharts.Wpf;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace bank_parser
 {
@@ -265,6 +266,127 @@ namespace bank_parser
         private void metroButtonBackContr_Click(object sender, EventArgs e)
         {
             parser.getContributionFromDB(nameOfCurrentBank, metroGridCon);
+        }
+
+        private void metroButtonFindCred_Click(object sender, EventArgs e)
+        {
+            string str = String.Empty;
+            
+            SqlDataAdapter sqlDA = new SqlDataAdapter("select Credit.NameCr, Credit.Protsent, Bank.NameB, Credit.Valuta from Bank inner join Credit on Bank.IndexB = Credit.IndexB where Bank.NameIdB = N'" + nameOfCurrentBank + "' and Credit.Valuta = N'" + metroComboBoxCurCred.Text + "'", parser.getSqlConnection());
+            SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
+            try
+            {
+                DataSet ds = new DataSet();
+                sqlDA.Fill(ds);
+                if (ds.Tables[0].Rows.Count != 0)
+                {
+                    string name = String.Empty;
+                    Regex regex = new Regex(@"\-?\d+(\.\d{0,})?");
+                    string temp = String.Empty;
+                    double minSell = 0;
+                    
+                    for (int j = 0; j < ds.Tables[0].Rows.Count; j++)
+                    {
+                        temp = ds.Tables[0].Rows[j][1].ToString();
+                        
+                        if (regex.IsMatch(temp))
+                        {
+                            minSell = Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo);
+                            break;
+                        }
+                    }
+
+                    
+
+                    if (minSell != 0)
+                    {
+                        for (int u = 0; u < ds.Tables[0].Rows.Count; u++)
+                        {
+                            temp = ds.Tables[0].Rows[u][1].ToString();
+
+                            if (minSell > Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo))
+                            {
+                                minSell = Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo);
+                                name = ds.Tables[0].Rows[u][0].ToString() + "; ";
+                            }
+                        }
+                        str = name + minSell + "%";
+                        MetroMessageBox.Show(this, str, metroComboBoxCurCred.Text, MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    }
+                    else
+                    {
+                        MetroMessageBox.Show(this, "Есть выдача процента по соглашению.", metroComboBoxCurCred.Text, MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    }
+                }
+                else
+                {
+                    MetroMessageBox.Show(this, "Не выбран банк или в выбранном банке нет кредитов под необходимую вам валюту.", "Не выбран банк или отсутствуют кредиты в выбранной валюте.", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                }
+            }
+            catch (Exception ex)
+            {
+                
+            }
+
+        }
+
+        private void metroButtonFindContr_Click(object sender, EventArgs e)
+        {
+            string str = String.Empty;
+
+            SqlDataAdapter sqlDA = new SqlDataAdapter("select Contribution.NameC, Contribution.Protsent, Bank.NameB, Contribution.Valuta from Bank inner join Contribution on Bank.IndexB = Contribution.IndexB where Bank.NameIdB = N'" + nameOfCurrentBank + "' and Contribution.Valuta = N'" + metroComboBoxCurContr.Text + "'", parser.getSqlConnection());
+            SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
+            try
+            {
+                DataSet ds = new DataSet();
+                sqlDA.Fill(ds);
+                if (ds.Tables[0].Rows.Count != 0)
+                {
+                    string name = String.Empty;
+                    Regex regex = new Regex(@"\-?\d+(\.\d{0,})?");
+                    string temp = String.Empty;
+                    double minSell = 0;
+
+                    for (int j = 0; j < ds.Tables[0].Rows.Count; j++)
+                    {
+                        temp = ds.Tables[0].Rows[j][1].ToString();
+
+                        if (regex.IsMatch(temp))
+                        {
+                            minSell = Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo);
+                            break;
+                        }
+                    }
+
+                    if (minSell != 0)
+                    {
+                        for (int u = 0; u < ds.Tables[0].Rows.Count; u++)
+                        {
+                            temp = ds.Tables[0].Rows[u][1].ToString();
+
+                            if (minSell > Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo))
+                            {
+                                minSell = Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo);
+                                name = ds.Tables[0].Rows[u][0].ToString() + "; ";
+                            }
+                        }
+                        str = name + minSell + "%";
+                        MetroMessageBox.Show(this, str, metroComboBoxCurCred.Text, MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    }
+                    else
+                    {
+                        MetroMessageBox.Show(this, "Есть выдача процента по соглашению.", metroComboBoxCurCred.Text, MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    }
+                }
+                else
+                {
+                    MetroMessageBox.Show(this, "Не выбран банк или в выбранном банке нет вкладов под необходимую вам валюту.", "Не выбран банк или отсутствуют вклады в выбранной валюте.", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                }
+            }
+            catch (Exception ex)
+            {
+                MetroMessageBox.Show(this, ex.ToString(), "Hi", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            }
         }
     }
 }

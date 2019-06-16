@@ -81,3 +81,7 @@ select Contribution.NameC as 'Название вклада', Contribution.Valut
 select Departament.NameD as 'Название отделения', Departament.AddressD as 'Адрес', Departament.PhonesD as 'Телефон(ы)', Departament.WorkTimeD as 'Рабочее время', Departament.CloseTimeD as 'Время до закрытия/открытия', Departament.CityD as 'Город', Bank.NameB as 'Банк' from Bank inner join Departament on Bank.IndexB = Departament.IndexB where Bank.NameIdB = N'absolutbank' and Departament.CityD = N'minsk'
 
 select Сurrency.BuyCur, Сurrency.SellCur, Сurrency.UpdateTime, Bank.NameB from Bank inner join Сurrency on Bank.IndexB = Сurrency.IndexB where Сurrency.NameCur = N'Евро'
+
+select Credit.NameCr, Credit.Protsent, Bank.NameB from Bank inner join Credit on Bank.IndexB = Credit.IndexB where Bank.NameB = N'Абсолютбанк' and Credit.Valuta = N'USD'
+
+select Credit.NameCr, Credit.Protsent, Bank.NameB, Credit.Valuta from Bank inner join Credit on Bank.IndexB = Credit.IndexB where Bank.NameB = N'Белинвестбанк' and Credit.Valuta = N'BYN'
