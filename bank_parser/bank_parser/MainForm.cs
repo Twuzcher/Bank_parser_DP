@@ -54,6 +54,8 @@ namespace bank_parser
                 addButtons(add); //вызов метода добавления кнопок на панель                
                 cartesianChartCurrency.BeginInvoke((MethodInvoker)(() => parser.getListOfCurrency(metroComboBoxCurrency)));
                 cartesianChartCurrency.BeginInvoke((MethodInvoker)(() => parser.getListOfCitys(metroComboBoxCitys)));
+                cartesianChartCurrency.BeginInvoke((MethodInvoker)(() => parser.getListOfCurrencyFromCreditsAndContributions(metroComboBoxCurCred, "Credit")));
+                cartesianChartCurrency.BeginInvoke((MethodInvoker)(() => parser.getListOfCurrencyFromCreditsAndContributions(metroComboBoxCurContr, "Contribution")));
             }
         }
 
@@ -243,6 +245,26 @@ namespace bank_parser
             {
                 MessageBox.Show(ex.ToString(), "Hi", MessageBoxButtons.OK, MessageBoxIcon.Question);
             }
+        }
+
+        private void metroButtonOutCurCr_Click(object sender, EventArgs e)
+        {
+            parser.getCreditsWithCurrency(nameOfCurrentBank, metroComboBoxCurCred.Text, metroGridCred);
+        }
+
+        private void metroButtonBackCr_Click(object sender, EventArgs e)
+        {
+            parser.getCreditFromDB(nameOfCurrentBank, metroGridCred);
+        }
+
+        private void metroButtonOutCurContr_Click(object sender, EventArgs e)
+        {
+            parser.getContributionWithCurrency(nameOfCurrentBank, metroComboBoxCurContr.Text, metroGridCon);
+        }
+
+        private void metroButtonBackContr_Click(object sender, EventArgs e)
+        {
+            parser.getContributionFromDB(nameOfCurrentBank, metroGridCon);
         }
     }
 }
