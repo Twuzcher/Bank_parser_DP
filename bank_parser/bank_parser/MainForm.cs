@@ -284,11 +284,11 @@ namespace bank_parser
                     Regex regex = new Regex(@"\-?\d+(\.\d{0,})?");
                     string temp = String.Empty;
                     double minSell = 0;
-                    
+
                     for (int j = 0; j < ds.Tables[0].Rows.Count; j++)
                     {
                         temp = ds.Tables[0].Rows[j][1].ToString();
-                        
+
                         if (regex.IsMatch(temp))
                         {
                             minSell = Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo);
@@ -296,7 +296,17 @@ namespace bank_parser
                         }
                     }
 
-                    
+                    for (int u = 0; u < ds.Tables[0].Rows.Count; u++)
+                    {
+                        temp = ds.Tables[0].Rows[u][1].ToString();
+
+                        if (regex.IsMatch(temp) && minSell > Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo))
+                        {
+                            minSell = Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo);
+                        }
+                    }
+
+                    str = String.Empty;
 
                     if (minSell != 0)
                     {
@@ -304,13 +314,14 @@ namespace bank_parser
                         {
                             temp = ds.Tables[0].Rows[u][1].ToString();
 
-                            if (minSell > Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo))
+                            if (regex.IsMatch(temp) && minSell == Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo))
                             {
                                 minSell = Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo);
                                 name = ds.Tables[0].Rows[u][0].ToString() + "; ";
+                                str += name + minSell + "%\n";
                             }
                         }
-                        str = name + minSell + "%";
+
                         MetroMessageBox.Show(this, str, metroComboBoxCurCred.Text, MessageBoxButtons.OK, MessageBoxIcon.Question);
                     }
                     else
@@ -325,7 +336,7 @@ namespace bank_parser
             }
             catch (Exception ex)
             {
-                
+                MetroMessageBox.Show(this, ex.ToString(), metroComboBoxCurCred.Text, MessageBoxButtons.OK, MessageBoxIcon.Question);
             }
 
         }
@@ -358,19 +369,30 @@ namespace bank_parser
                         }
                     }
 
+                    for (int u = 0; u < ds.Tables[0].Rows.Count; u++)
+                    {
+                        temp = ds.Tables[0].Rows[u][1].ToString();
+
+                        if (regex.IsMatch(temp) && minSell > Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo))
+                        {
+                            minSell = Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo);
+                        }
+                    }
+                    str = String.Empty;
                     if (minSell != 0)
                     {
                         for (int u = 0; u < ds.Tables[0].Rows.Count; u++)
                         {
                             temp = ds.Tables[0].Rows[u][1].ToString();
 
-                            if (minSell > Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo))
+                            if (regex.IsMatch(temp) && minSell == Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo))
                             {
                                 minSell = Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo);
                                 name = ds.Tables[0].Rows[u][0].ToString() + "; ";
+                                str += name + minSell + "%\n";
                             }
                         }
-                        str = name + minSell + "%";
+                        
                         MetroMessageBox.Show(this, str, metroComboBoxCurCred.Text, MessageBoxButtons.OK, MessageBoxIcon.Question);
                     }
                     else
@@ -385,7 +407,7 @@ namespace bank_parser
             }
             catch (Exception ex)
             {
-                MetroMessageBox.Show(this, ex.ToString(), "Hi", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                //MetroMessageBox.Show(this, ex.ToString(), "Hi", MessageBoxButtons.OK, MessageBoxIcon.Question);
             }
         }
     }
