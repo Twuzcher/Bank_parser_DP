@@ -316,7 +316,7 @@ namespace bank_parser
 
                             if (regex.IsMatch(temp) && minSell == Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo))
                             {
-                                minSell = Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo);
+                                minSell = Math.Round(Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo), 3);
                                 name = ds.Tables[0].Rows[u][0].ToString() + "; ";
                                 str += name + minSell + "%\n";
                             }
@@ -387,7 +387,7 @@ namespace bank_parser
 
                             if (regex.IsMatch(temp) && minSell == Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo))
                             {
-                                minSell = Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo);
+                                minSell = Math.Round(Convert.ToDouble(regex.Match(temp).Value, NumberFormatInfo.InvariantInfo), 3);
                                 name = ds.Tables[0].Rows[u][0].ToString() + "; ";
                                 str += name + minSell + "%\n";
                             }
@@ -417,9 +417,9 @@ namespace bank_parser
             {
                 int number = Convert.ToInt32(metroTextBoxConverter.Text);
                 double BYN = Convert.ToDouble(number);
-                double temp = 0;
+
                 Regex regex = new Regex(@"\-?\d+(\.\d{0,})?");
-                SqlDataAdapter sqlDA = new SqlDataAdapter("select NameCur, NB_RB from Сurrency", parser.getSqlConnection());
+                SqlDataAdapter sqlDA = new SqlDataAdapter("select NameCur, NB_RB from Сurrency group by NameCur, NB_RB", parser.getSqlConnection());
                 SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
                 try
                 {
@@ -430,16 +430,13 @@ namespace bank_parser
                         switch (ds.Tables[0].Rows[i][0].ToString())
                         {
                             case "Евро":
-                                temp = Convert.ToDouble(regex.Match(ds.Tables[0].Rows[i][1].ToString()).Value);
-                                metroLabelConverter.Text += "Евро: " + (BYN / temp).ToString() + "\n";
+                                metroLabelConverter.Text += "Евро: " + (Math.Round(BYN / Convert.ToDouble(regex.Match(ds.Tables[0].Rows[i][1].ToString()).Value, NumberFormatInfo.InvariantInfo), 3)).ToString() + "\n";
                                 break;
                             case "Доллар США":
-                                temp = Convert.ToDouble(regex.Match(ds.Tables[0].Rows[i][1].ToString()).Value);
-                                metroLabelConverter.Text += "Доллар США: " + (BYN / temp).ToString() + "\n";
+                                metroLabelConverter.Text += "Доллар США: " + (Math.Round(BYN / Convert.ToDouble(regex.Match(ds.Tables[0].Rows[i][1].ToString()).Value, NumberFormatInfo.InvariantInfo), 3)).ToString() + "\n";
                                 break;
                             case "Российский рубль100":
-                                temp = Convert.ToDouble(regex.Match(ds.Tables[0].Rows[i][1].ToString()).Value);
-                                metroLabelConverter.Text += "Российский рубль: " + (BYN * 100 / temp).ToString() + "\n";
+                                metroLabelConverter.Text += "Российский рубль: " + (Math.Round(BYN * 100 / Convert.ToDouble(regex.Match(ds.Tables[0].Rows[i][1].ToString()).Value, NumberFormatInfo.InvariantInfo), 3)).ToString() + "\n";
                                 break;
                             default:
                                 break;
@@ -455,6 +452,12 @@ namespace bank_parser
             {
                 MetroMessageBox.Show(this, "Вы ввели не целое число.", "Не правильное число.", MessageBoxButtons.OK, MessageBoxIcon.Question);
             }
+        }
+
+        private void metroButtonClean_Click(object sender, EventArgs e)
+        {
+            metroLabelConverter.Text = String.Empty;
+            metroTextBoxConverter.Text = String.Empty;
         }
     }
 }

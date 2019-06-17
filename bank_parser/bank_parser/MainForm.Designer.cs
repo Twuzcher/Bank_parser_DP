@@ -88,6 +88,8 @@
             this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
             this.metroTextBoxConverter = new MetroFramework.Controls.MetroTextBox();
             this.metroLabelConverter = new MetroFramework.Controls.MetroLabel();
+            this.metroButtonClean = new MetroFramework.Controls.MetroButton();
+            this.metroLabel5 = new MetroFramework.Controls.MetroLabel();
             this.metroTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.metroPanel5.SuspendLayout();
@@ -718,6 +720,8 @@
             // 
             // metroPanel7
             // 
+            this.metroPanel7.Controls.Add(this.metroLabel5);
+            this.metroPanel7.Controls.Add(this.metroButtonClean);
             this.metroPanel7.Controls.Add(this.metroLabelConverter);
             this.metroPanel7.Controls.Add(this.metroTextBoxConverter);
             this.metroPanel7.Controls.Add(this.metroLabel4);
@@ -791,9 +795,31 @@
             this.metroLabelConverter.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.metroLabelConverter.Location = new System.Drawing.Point(443, 164);
             this.metroLabelConverter.Name = "metroLabelConverter";
-            this.metroLabelConverter.Size = new System.Drawing.Size(280, 123);
+            this.metroLabelConverter.Size = new System.Drawing.Size(280, 204);
             this.metroLabelConverter.TabIndex = 5;
             this.metroLabelConverter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // metroButtonClean
+            // 
+            this.metroButtonClean.FontSize = MetroFramework.MetroButtonSize.Tall;
+            this.metroButtonClean.Location = new System.Drawing.Point(221, 293);
+            this.metroButtonClean.Name = "metroButtonClean";
+            this.metroButtonClean.Size = new System.Drawing.Size(215, 75);
+            this.metroButtonClean.TabIndex = 6;
+            this.metroButtonClean.Text = "Очистить";
+            this.metroButtonClean.UseSelectable = true;
+            this.metroButtonClean.Click += new System.EventHandler(this.metroButtonClean_Click);
+            // 
+            // metroLabel5
+            // 
+            this.metroLabel5.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel5.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.metroLabel5.Location = new System.Drawing.Point(221, 73);
+            this.metroLabel5.Name = "metroLabel5";
+            this.metroLabel5.Size = new System.Drawing.Size(502, 58);
+            this.metroLabel5.TabIndex = 7;
+            this.metroLabel5.Text = "Конвертер по национальному банку";
+            this.metroLabel5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 
@@ -886,5 +912,7 @@
         private MetroFramework.Controls.MetroTextBox metroTextBoxConverter;
         private MetroFramework.Controls.MetroLabel metroLabel4;
         private MetroFramework.Controls.MetroButton metroButtonConverter;
+        private MetroFramework.Controls.MetroButton metroButtonClean;
+        private MetroFramework.Controls.MetroLabel metroLabel5;
     }
 }
