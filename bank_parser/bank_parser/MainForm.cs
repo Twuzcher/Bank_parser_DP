@@ -419,6 +419,7 @@ namespace bank_parser
                 double BYN = Convert.ToDouble(number);
                 metroLabelConverter.Text = String.Empty;
                 metroTextBoxConverter.Text = String.Empty;
+                metroLabelConvBank.Text = String.Empty;
                 Regex regex = new Regex(@"\-?\d+(\.\d{0,})?");
                 SqlDataAdapter sqlDA = new SqlDataAdapter("select NameCur, NB_RB from Сurrency group by NameCur, NB_RB", parser.getSqlConnection());
                 SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
@@ -448,6 +449,38 @@ namespace bank_parser
                 {
                     MetroMessageBox.Show(this, ex.ToString(), "Hi", MessageBoxButtons.OK, MessageBoxIcon.Question);
                 }
+                MessageBox.Show(nameOfCurrentBank);
+                sqlDA = new SqlDataAdapter("select Сurrency.NameCur, Сurrency.BuyCur, Сurrency.SellCur from Сurrency join Bank on Bank.IndexB = Сurrency.IndexB where Bank.NameIdB = N'" + nameOfCurrentBank + "'", parser.getSqlConnection());
+                sqlCB = new SqlCommandBuilder(sqlDA);
+                try
+                {
+                    DataSet dss = new DataSet();
+                    sqlDA.Fill(dss);
+                    for (int i = 0; i < dss.Tables[0].Rows.Count; i++)
+                    {
+                        switch (dss.Tables[0].Rows[i][0].ToString())
+                        {
+                            case "Евро":
+                                metroLabelConvBank.Text += "Евро:\nПокупка: " + (Math.Round(BYN / Convert.ToDouble(regex.Match(dss.Tables[0].Rows[i][1].ToString()).Value, NumberFormatInfo.InvariantInfo), 3)).ToString() + "\n";
+                                metroLabelConvBank.Text += "Продажа: " + (Math.Round(BYN / Convert.ToDouble(regex.Match(dss.Tables[0].Rows[i][2].ToString()).Value, NumberFormatInfo.InvariantInfo), 3)).ToString() + "\n";
+                                break;
+                            case "Доллар США":
+                                metroLabelConvBank.Text += "Доллар США:\nПокупка: " + (Math.Round(BYN / Convert.ToDouble(regex.Match(dss.Tables[0].Rows[i][1].ToString()).Value, NumberFormatInfo.InvariantInfo), 3)).ToString() + "\n";
+                                metroLabelConvBank.Text += "Продажа: " + (Math.Round(BYN / Convert.ToDouble(regex.Match(dss.Tables[0].Rows[i][2].ToString()).Value, NumberFormatInfo.InvariantInfo), 3)).ToString() + "\n";
+                                break;
+                            case "Российский рубль100":
+                                metroLabelConvBank.Text += "Российский рубль:\nПокупка: " + (Math.Round(BYN * 100 / Convert.ToDouble(regex.Match(dss.Tables[0].Rows[i][1].ToString()).Value, NumberFormatInfo.InvariantInfo), 3)).ToString() + "\n";
+                                metroLabelConvBank.Text += "Продажа: " + (Math.Round(BYN * 100 / Convert.ToDouble(regex.Match(dss.Tables[0].Rows[i][2].ToString()).Value, NumberFormatInfo.InvariantInfo), 3)).ToString() + "\n";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MetroMessageBox.Show(this, ex.ToString(), "Hi", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                }
             }
             catch (Exception ex)
             {
@@ -459,6 +492,7 @@ namespace bank_parser
         {
             metroLabelConverter.Text = String.Empty;
             metroTextBoxConverter.Text = String.Empty;
+            metroLabelConvBank.Text = String.Empty;
         }
     }
 }

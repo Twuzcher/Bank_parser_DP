@@ -85,3 +85,5 @@ select Сurrency.BuyCur, Сurrency.SellCur, Сurrency.UpdateTime, Bank.NameB fro
 select Credit.NameCr, Credit.Protsent, Bank.NameB from Bank inner join Credit on Bank.IndexB = Credit.IndexB where Bank.NameB = N'Абсолютбанк' and Credit.Valuta = N'USD'
 
 select Credit.NameCr, Credit.Protsent, Bank.NameB, Credit.Valuta from Bank inner join Credit on Bank.IndexB = Credit.IndexB where Bank.NameB = N'Белинвестбанк' and Credit.Valuta = N'BYN'
+
+select Сurrency.NameCur, Сurrency.BuyCur, Сurrency.SellCur from Сurrency join Bank on Bank.IndexB = Сurrency.IndexB where Bank.NameIdB = N'absolutbank'
