@@ -16,6 +16,7 @@ using LiveCharts;
 using LiveCharts.Wpf;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace bank_parser
 {
@@ -27,12 +28,13 @@ namespace bank_parser
         Form1 load;
         public bool close;
         string nameOfCurrentBank;
+        string convert;
 
         public MainForm()
         {
             InitializeComponent();
             close = false;
-            
+            convert = metroLabelSelectedBank.Text;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -105,7 +107,7 @@ namespace bank_parser
         public void btn_action(object sender, EventArgs e)//метод события по нажатию на добавленную кнопку
         {
             MetroFramework.MetroMessageBox.Show(this, ((MetroButton)sender).Text, "Вы выбрали: ", MessageBoxButtons.OK, MessageBoxIcon.Question);
-            metroLabelSelectedBank.Text += "\n"+((MetroButton)sender).Text;
+            metroLabelSelectedBank.Text = convert + "\n"+((MetroButton)sender).Text;
             nameOfCurrentBank = ((MetroButton)sender).Name;
             parser.getDepartamentsFromDB(((MetroButton)sender).Name, metroGridDep);
             parser.getCurrencyFromDB(((MetroButton)sender).Name, metroGridCur);
@@ -507,6 +509,11 @@ namespace bank_parser
             metroLabelConverter.Text = String.Empty;
             metroTextBoxConverter.Text = String.Empty;
             metroLabelConvBank.Text = String.Empty;
+        }
+
+        private void metroButtonInfoHtml_Click(object sender, EventArgs e)
+        {
+            Help.ShowHelp(this, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "User Manual.chm"));
         }
     }
 }
