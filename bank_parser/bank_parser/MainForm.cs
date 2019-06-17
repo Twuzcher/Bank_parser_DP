@@ -25,12 +25,13 @@ namespace bank_parser
         Parser parser;
         AddButtonToPanel add;
         Form1 load;
+        public bool close;
         string nameOfCurrentBank;
 
         public MainForm()
         {
             InitializeComponent();
-            
+            close = false;
             
         }
 
@@ -38,12 +39,21 @@ namespace bank_parser
         {
             load = new Form1(this);
             Hide();
-            load.ShowDialog();    
+            load.ShowDialog();
+            CloseForm();
+        }
 
+        public void CloseForm()
+        {
+            if (!close)
+            {
+                BeginInvoke((MethodInvoker)(() => Close()));
+            }
         }
 
         public void start()
         {
+            close = true;
             if (load.check == true)
             {
                 MetroMessageBox.Show(this, "Загрузка началась!", "Информация загружаеться!", MessageBoxButtons.OK, MessageBoxIcon.Question);
