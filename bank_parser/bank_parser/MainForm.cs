@@ -95,6 +95,7 @@ namespace bank_parser
         public void btn_action(object sender, EventArgs e)//метод события по нажатию на добавленную кнопку
         {
             MetroFramework.MetroMessageBox.Show(this, ((MetroButton)sender).Text, "Вы выбрали: ", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            metroLabelSelectedBank.Text += "\n"+((MetroButton)sender).Text;
             nameOfCurrentBank = ((MetroButton)sender).Name;
             parser.getDepartamentsFromDB(((MetroButton)sender).Name, metroGridDep);
             parser.getCurrencyFromDB(((MetroButton)sender).Name, metroGridCur);
@@ -419,7 +420,10 @@ namespace bank_parser
                 double BYN = Convert.ToDouble(number);
                 metroLabelConverter.Text = String.Empty;
                 metroTextBoxConverter.Text = String.Empty;
-                metroLabelConvBank.Text = String.Empty;
+                if (nameOfCurrentBank != String.Empty && nameOfCurrentBank != null)
+                {
+                    metroLabelConvBank.Text = String.Empty;
+                }
                 Regex regex = new Regex(@"\-?\d+(\.\d{0,})?");
                 SqlDataAdapter sqlDA = new SqlDataAdapter("select NameCur, NB_RB from Сurrency group by NameCur, NB_RB", parser.getSqlConnection());
                 SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
@@ -449,7 +453,7 @@ namespace bank_parser
                 {
                     MetroMessageBox.Show(this, ex.ToString(), "Hi", MessageBoxButtons.OK, MessageBoxIcon.Question);
                 }
-                MessageBox.Show(nameOfCurrentBank);
+                
                 sqlDA = new SqlDataAdapter("select Сurrency.NameCur, Сurrency.BuyCur, Сurrency.SellCur from Сurrency join Bank on Bank.IndexB = Сurrency.IndexB where Bank.NameIdB = N'" + nameOfCurrentBank + "'", parser.getSqlConnection());
                 sqlCB = new SqlCommandBuilder(sqlDA);
                 try

@@ -631,7 +631,7 @@ namespace bank_parser
 
         public void getContributionWithCurrency(string name, string currency, MetroFramework.Controls.MetroGrid grid)
         {
-            SqlDataAdapter sqlDA = new SqlDataAdapter("select Contribution.NameC as 'Название кредита', Contribution.Valuta as 'Валюта', Contribution.Summa as 'Сумма', Contribution.Srok as 'Срок', Contribution.Protsent as 'Процент %', Bank.NameB as 'Банк' from Bank inner join Contribution on Bank.IndexB = Contribution.IndexB where Bank.NameIdB = '" + name + "' and Contribution.Valuta = '" + currency + "'", sqlCon);
+            SqlDataAdapter sqlDA = new SqlDataAdapter("select Contribution.NameC as 'Название вклада', Contribution.Valuta as 'Валюта', Contribution.Summa as 'Сумма', Contribution.Srok as 'Срок', Contribution.Protsent as 'Процент %', Bank.NameB as 'Банк' from Bank inner join Contribution on Bank.IndexB = Contribution.IndexB where Bank.NameIdB = '" + name + "' and Contribution.Valuta = '" + currency + "'", sqlCon);
             SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
             //DataSet ds = new DataSet();
             //select Departament.NameD as 'Название отделения', Departament.AddressD as 'Адрес', Departament.PhonesD as 'Телефон(ы)', Departament.WorkTimeD as 'Рабочее время', Departament.CloseTimeD as 'Время до закрытия/открытия', Departament.CityD as 'Город', Bank.NameB as 'Банк' from Bank inner join Departament on Bank.IndexB = Departament.IndexB where Bank.NameIdB =
