@@ -417,7 +417,8 @@ namespace bank_parser
             {
                 int number = Convert.ToInt32(metroTextBoxConverter.Text);
                 double BYN = Convert.ToDouble(number);
-
+                metroLabelConverter.Text = String.Empty;
+                metroTextBoxConverter.Text = String.Empty;
                 Regex regex = new Regex(@"\-?\d+(\.\d{0,})?");
                 SqlDataAdapter sqlDA = new SqlDataAdapter("select NameCur, NB_RB from Сurrency group by NameCur, NB_RB", parser.getSqlConnection());
                 SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
