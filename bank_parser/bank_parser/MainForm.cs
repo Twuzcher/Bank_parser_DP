@@ -410,5 +410,51 @@ namespace bank_parser
                 //MetroMessageBox.Show(this, ex.ToString(), "Hi", MessageBoxButtons.OK, MessageBoxIcon.Question);
             }
         }
+
+        private void metroButtonConverter_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int number = Convert.ToInt32(metroTextBoxConverter.Text);
+                double BYN = Convert.ToDouble(number);
+                double temp = 0;
+                Regex regex = new Regex(@"\-?\d+(\.\d{0,})?");
+                SqlDataAdapter sqlDA = new SqlDataAdapter("select NameCur, NB_RB from Сurrency", parser.getSqlConnection());
+                SqlCommandBuilder sqlCB = new SqlCommandBuilder(sqlDA);
+                try
+                {
+                    DataSet ds = new DataSet();
+                    sqlDA.Fill(ds);
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    {
+                        switch (ds.Tables[0].Rows[i][0].ToString())
+                        {
+                            case "Евро":
+                                temp = Convert.ToDouble(regex.Match(ds.Tables[0].Rows[i][1].ToString()).Value);
+                                metroLabelConverter.Text += "Евро: " + (BYN / temp).ToString() + "\n";
+                                break;
+                            case "Доллар США":
+                                temp = Convert.ToDouble(regex.Match(ds.Tables[0].Rows[i][1].ToString()).Value);
+                                metroLabelConverter.Text += "Доллар США: " + (BYN / temp).ToString() + "\n";
+                                break;
+                            case "Российский рубль100":
+                                temp = Convert.ToDouble(regex.Match(ds.Tables[0].Rows[i][1].ToString()).Value);
+                                metroLabelConverter.Text += "Российский рубль: " + (BYN * 100 / temp).ToString() + "\n";
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MetroMessageBox.Show(this, ex.ToString(), "Hi", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                }
+            }
+            catch (Exception ex)
+            {
+                MetroMessageBox.Show(this, "Вы ввели не целое число.", "Не правильное число.", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            }
+        }
     }
 }
