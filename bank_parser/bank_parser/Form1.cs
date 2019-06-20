@@ -61,6 +61,7 @@ namespace bank_parser
             }
             else
             {
+                
                 metroButton1.Visible = false;
                 metroButton2.Visible = false;
                 metroLabel1.Visible = true;

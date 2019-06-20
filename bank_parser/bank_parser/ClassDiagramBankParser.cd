@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="bank_parser.Functions.Bank">
+    <Position X="5.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAEgAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Functions\Bank.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="bank_parser.AddButtonToPanel">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>AddButtonToPanel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="bank_parser.Program">
+    <Position X="6.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="bank_parser.Parser">
+    <Position X="6.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAQAAAhgAIFEAKACAAIAUKAAAADKiAAABQAgBAAQAQ=</HashCode>
+      <FileName>Parser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="bank_parser.Form1">
+    <Position X="5.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAKAIAAAAAACAAAADAAAAAAQAAAQAIAACgAU=</HashCode>
+      <FileName>Form1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="bank_parser.MainForm">
+    <Position X="8.25" Y="1.5" Width="1.5" />
+    <Members>
+      <Field Name="convert" Hidden="true" />
+      <Field Name="load" Hidden="true" />
+      <Field Name="metroBack" Hidden="true" />
+      <Field Name="metroButton1" Hidden="true" />
+      <Field Name="metroButtonAboutCreator" Hidden="true" />
+      <Field Name="metroButtonBack" Hidden="true" />
+      <Field Name="metroButtonBackContr" Hidden="true" />
+      <Field Name="metroButtonBackCr" Hidden="true" />
+      <Field Name="metroButtonClean" Hidden="true" />
+      <Field Name="metroButtonConverter" Hidden="true" />
+      <Field Name="metroButtonDescription" Hidden="true" />
+      <Field Name="metroButtonEnterCity" Hidden="true" />
+      <Field Name="metroButtonFindContr" Hidden="true" />
+      <Field Name="metroButtonFindCred" Hidden="true" />
+      <Field Name="metroButtonInfoHtml" Hidden="true" />
+      <Field Name="metroButtonInstruction" Hidden="true" />
+      <Field Name="metroButtonIntro" Hidden="true" />
+      <Field Name="metroButtonMakeGraf" Hidden="true" />
+      <Field Name="metroButtonOutCurContr" Hidden="true" />
+      <Field Name="metroButtonOutCurCr" Hidden="true" />
+      <Field Name="metroComboBoxCitys" Hidden="true" />
+      <Field Name="metroComboBoxCurContr" Hidden="true" />
+      <Field Name="metroComboBoxCurCred" Hidden="true" />
+      <Field Name="metroComboBoxCurrency" Hidden="true" />
+      <Field Name="metroGridCon" Hidden="true" />
+      <Field Name="metroGridCred" Hidden="true" />
+      <Field Name="metroGridCur" Hidden="true" />
+      <Field Name="metroGridDep" Hidden="true" />
+      <Field Name="metroLabel1" Hidden="true" />
+      <Field Name="metroLabel2" Hidden="true" />
+      <Field Name="metroLabel3" Hidden="true" />
+      <Field Name="metroLabel4" Hidden="true" />
+      <Field Name="metroLabel5" Hidden="true" />
+      <Field Name="metroLabelConvBank" Hidden="true" />
+      <Field Name="metroLabelConverter" Hidden="true" />
+      <Field Name="metroLabelInfo" Hidden="true" />
+      <Field Name="metroPanel1" Hidden="true" />
+      <Field Name="metroPanel2" Hidden="true" />
+      <Field Name="metroPanel3" Hidden="true" />
+      <Field Name="metroPanel4" Hidden="true" />
+      <Field Name="metroPanel5" Hidden="true" />
+      <Field Name="metroPanel6" Hidden="true" />
+      <Field Name="metroPanel7" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>QGGsySCAIa0IxAYwEhCINhMCAmAAFIJKAIAQACgHbAE=</HashCode>
+      <FileName>MainForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
