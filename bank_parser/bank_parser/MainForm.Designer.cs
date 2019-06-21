@@ -123,7 +123,7 @@
             this.metroTabControl1.Controls.Add(this.tabPage7);
             this.metroTabControl1.Location = new System.Drawing.Point(168, 12);
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 5;
+            this.metroTabControl1.SelectedIndex = 0;
             this.metroTabControl1.Size = new System.Drawing.Size(990, 490);
             this.metroTabControl1.Style = MetroFramework.MetroColorStyle.Green;
             this.metroTabControl1.TabIndex = 0;

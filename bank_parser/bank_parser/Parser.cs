@@ -36,7 +36,7 @@ namespace bank_parser
                 while (true)
                 {
                     parsBanksNames();
-                    if (getCountOfBanks() != banksCount)
+                    if (getCountOfBanks() == banksCount)
                     {
                         break;
                     }

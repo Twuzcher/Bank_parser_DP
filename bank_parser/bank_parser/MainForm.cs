@@ -58,12 +58,12 @@ namespace bank_parser
             close = true;
             if (load.check == true)
             {
-                MetroMessageBox.Show(this, "Загрузка началась!", "Информация загружаеться!", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                //MetroMessageBox.Show(this, "Загрузка началась!", "Информация загружаеться!", MessageBoxButtons.OK, MessageBoxIcon.Question);
                 startApp();
                 load.check = false;
                 metroPanel1.AutoScroll = true;
                 add = new AddButtonToPanel(metroPanel1);//объект класса для добвления кнопок
-                MetroMessageBox.Show(this, ""+metroPanel1.Controls.Count, "Колво кнопок!", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                //MetroMessageBox.Show(this, ""+metroPanel1.Controls.Count, "Колво кнопок!", MessageBoxButtons.OK, MessageBoxIcon.Question);
                 addButtons(add); //вызов метода добавления кнопок на панель                
                 cartesianChartCurrency.BeginInvoke((MethodInvoker)(() => parser.getListOfCurrency(metroComboBoxCurrency)));
                 cartesianChartCurrency.BeginInvoke((MethodInvoker)(() => parser.getListOfCitys(metroComboBoxCitys)));
@@ -76,8 +76,13 @@ namespace bank_parser
         {
             parser = new Parser();
             banks = parser.getBanksNames();
-            MessageBox.Show(parser.getCountOfBanks().ToString(), "hi", MessageBoxButtons.OK);
-            MessageBox.Show(parser.getBankId("belinvestbank"), "hi", MessageBoxButtons.OK);
+            //MessageBox.Show(parser.getCountOfBanks().ToString(), "hi", MessageBoxButtons.OK);
+            if (parser.getCountOfBanks() == 0)
+            {
+                MetroMessageBox.Show(this, "Ошибка загрузки.\nИнформация не была загружена.\nПожалуйста, перезапустите приложение", "Сбой загрузки!", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                BeginInvoke((MethodInvoker)(() => Close()));
+            }
+            //MessageBox.Show(parser.getBankId("belinvestbank"), "hi", MessageBoxButtons.OK);
             load.check = false;
 
 
