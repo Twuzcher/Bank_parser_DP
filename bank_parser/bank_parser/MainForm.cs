@@ -140,6 +140,8 @@ namespace bank_parser
                     da.Fill(table);
                     name = table.Rows[0][0].ToString();
                     int n = table.Rows.Count;
+                    cartesianChartCurrency.Series.Clear();
+                    cartesianChartCurrency.AxisX.Clear();
                     cartesianChartCurrency.Series = new SeriesCollection()
                     {
                         new LineSeries()

@@ -15,6 +15,8 @@ using LiveCharts.WinForms;
 using LiveCharts.Charts;
 using LiveCharts.Wpf;
 using LiveCharts.Defaults;
+using System.Windows.Forms;
+
 
 namespace bank_parser
 {
@@ -25,23 +27,24 @@ namespace bank_parser
         string str;
         List<Functions.Bank> banks;
         int banksCount;
+
         public Parser()
         {
             SqlConnection();
             banks = new List<Functions.Bank>();
             banksCount = getCountOfBankFromSite();
             parsBanksNames();
-            if (getCountOfBanks() != banksCount)
-            {
-                while (true)
-                {
-                    parsBanksNames();
-                    if (getCountOfBanks() == banksCount)
-                    {
-                        break;
-                    }
-                }
-            }
+            //if (getCountOfBanks() != banksCount)
+            //{
+            //    while (true)
+            //    {
+            //        parsBanksNames();
+            //        if (getCountOfBanks() == banksCount)
+            //        {
+            //            break;
+            //        }
+            //    }
+            //}
             parsBanksDepartaments();
             parsBankCurrency();
             parsBankCreditsAndContribution("vklady");
@@ -75,7 +78,7 @@ namespace bank_parser
                     using (var request = new HttpRequest())
                     {
                         string content = request.Get("myfin.by/banki").ToString();//получение странницы
-                        HtmlDocument doc = new HtmlDocument();// Присваиваем текстовой переменной k html-код              
+                        HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();// Присваиваем текстовой переменной k html-код              
                         doc.LoadHtml(content);// Загружаем в класс (парсер) наш html
                         List<string> nameRus = new List<string>();
                         List<string> nameEng = new List<string>();                     
@@ -114,19 +117,19 @@ namespace bank_parser
             }
             catch (Exception e)
             {
-
+                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             try
             {
-                for (int i = 0; i < banks.Count; i++)
+                for (int i = 0; i<banks.Count; i++)
                 {
                     str = "insert into Bank (NameB, NameIdB) values (N'" + banks[i].getName() + "', '" + banks[i].getNameId() +"')";
                     ExecuteQuery(str);
-                }
+}
             }
             catch (Exception e)
             {
-
+                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             this.banks = banks;
         }
@@ -150,7 +153,7 @@ namespace bank_parser
                     citys.Add("grodno");
                     citys.Add("mogilev");
                     List<string> dep = new List<string>();
-                    HtmlDocument doc = new HtmlDocument();
+                    HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                     for (int b = 0; b < banks.Count; b++)
                     {
                         for (int c = 0; c < citys.Count; c++)
@@ -187,7 +190,7 @@ namespace bank_parser
 
                                     content = request.Get("myfin.by/bank/" + banks[b].getNameId() + "/otdelenija-spiskom/" + citys[c] + "?page=" + j.ToString()).ToString();//получение определённой страницы
 
-                                    HtmlDocument doc1 = new HtmlDocument();
+                                    HtmlAgilityPack.HtmlDocument doc1 = new HtmlAgilityPack.HtmlDocument();
                                     doc1.LoadHtml(content);
 
                                     foreach (var item in doc1.DocumentNode.QuerySelectorAll("div.tab-content>div#tabTable.tab-pane.fade.in.active>div.cont-table.div-table>div#banki_poisk_menu.credit-table-sort>table.items>tbody.table-body>tr.odd"))//парсинг
@@ -196,6 +199,7 @@ namespace bank_parser
                                         foreach (var row in item.QuerySelectorAll("td.td"))
                                         {
                                             str = row.InnerText;
+                                        str = str.Replace("'","''");
                                             dep.Add(str);
                                         }
 
@@ -210,7 +214,8 @@ namespace bank_parser
                                         foreach (var row in item.QuerySelectorAll("td.td"))
                                         {
                                             str = row.InnerText;
-                                            dep.Add(str);
+                                        str = str.Replace("'", "''");
+                                        dep.Add(str);
                                         }
 
                                         dep.Add(citys[c]);
@@ -232,57 +237,57 @@ namespace bank_parser
             }
             catch (Exception e)
             {
-
+                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
+}
 
         private void addDepartamentsToDB(List<string> list) //Метод добавляющий отделения в бд
         {
             
-            try
-            {
+            //try
+            //{
                 
                 str = "insert into Departament (NameD, AddressD, PhonesD, WorkTimeD, CloseTimeD, CityD, IndexB) values (N'" + list[0] + "', N'" + list[1] + "', N'" + list[2] + "', N'" + list[3] + "', N'" + list[4] + "', N'" + list[5] + "', N'" + getBankId(list[6]) + "')";
                 ExecuteQuery(str);
                 
-            }
-            catch (Exception e)
-            {
-
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
         public string getBankId(string name) //получает индекс указанного банка из бд по имени
         {
             DataTable table = new DataTable();
-            try
-            {
+            //try
+            //{
                 using (SqlDataAdapter da = new SqlDataAdapter(@"SELECT IndexB FROM Bank where NameIdB like N'%" + name + "%'", sqlCon))
                 {
                     da.Fill(table);
                     name = table.Rows[0][0].ToString();
                    
                 }
-            }
-            catch (Exception e)
-            {
-
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
             return name;
         }
 
         private void parsBankCurrency() //метод получающий валюту по банкам и добаляющий валюту в БД
         {
             List<string> curr = new List<string>();
-            try
-            {
+            //try
+            //{
                 using (var request = new HttpRequest())
                 {
                     for (int b = 0; b < banks.Count; b++)
                     {
                         string content = request.Get("myfin.by/bank/" + banks[b].getNameId() + "/currency").ToString();
 
-                        HtmlDocument doc = new HtmlDocument();
+                        HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
 
                         doc.LoadHtml(content);
 
@@ -293,7 +298,8 @@ namespace bank_parser
                             foreach (var row in item.QuerySelectorAll("td"))
                             {
                                 string str = row.InnerText;
-                                curr.Add(str);
+                            str = str.Replace("'", "''");
+                            curr.Add(str);
                             }
                             curr.Add(banks[b].getNameId());
                             addCurrencyToDB(curr);
@@ -303,27 +309,27 @@ namespace bank_parser
                     }
 
                 }
-            }
-            catch (Exception e)
-            {
-
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
         private void addCurrencyToDB(List<string> list) //метод добаляющий валюту в бд
         {
 
-            try
-            {
+            //try
+            //{
 
                 str = "insert into Сurrency (NameCur, BuyCur, SellCur, NB_RB, UpdateTime, IndexB) values (N'" + list[0] + "', N'" + list[1] + "', N'" + list[2] + "', N'" + list[3] + "', N'" + list[4] + "', N'" + getBankId(list[5]) + "')";
                 ExecuteQuery(str);
 
-            }
-            catch (Exception e)
-            {
-
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
         private void parsBankCreditsAndContribution(string type) //метод получающий кредиты и вклады по банкам и добавлющий -//- в бд
@@ -333,7 +339,7 @@ namespace bank_parser
                 using (var request = new HttpRequest())
                 {
 
-                    HtmlDocument doc = new HtmlDocument();
+                    HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                     int i = 0;
                     //List<string> types = new List<string>();
                     List<string> values = new List<string>();
@@ -423,14 +429,15 @@ namespace bank_parser
             }
             catch (Exception e)
             {
-
+                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
+}
 
         private void addCreditsAndContributions(List<string> list, string type) //метод добавляющий валюту и кредиты в бд
         {
             try
             {
+                list[0] = list[0].Replace("'", "''");
                 if (type == "kredity")
                 {
                     str = "insert into Credit (NameCr, Valuta, Summa, Srok, Protsent, IndexB) values (N'" + list[0] + "', N'" + list[1] + "', N'" + list[2] + "', N'" + list[3] + "', N'" + list[4] + "', N'" + getBankId(list[5]) + "')";
@@ -440,11 +447,11 @@ namespace bank_parser
                     str = "insert into Contribution (NameC, Valuta, Summa, Srok, Protsent, IndexB) values (N'" + list[0] + "', N'" + list[1] + "', N'" + list[2] + "', N'" + list[3] + "', N'" + list[4] + "', N'" + getBankId(list[5]) + "')";
                 }
                 ExecuteQuery(str);
-                
+
             }
             catch (Exception e)
             {
-
+             MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -457,7 +464,7 @@ namespace bank_parser
             }
             catch (Exception e)
             {
-                
+                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -675,7 +682,7 @@ namespace bank_parser
             using (var request = new HttpRequest())
             {
                 string content = request.Get("myfin.by/banki").ToString();//получение странницы
-                HtmlDocument doc = new HtmlDocument();// Присваиваем текстовой переменной k html-код              
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();// Присваиваем текстовой переменной k html-код              
                 doc.LoadHtml(content);// Загружаем в класс (парсер) наш html
                 
                 foreach (var item in doc.DocumentNode.QuerySelectorAll("table.rates-table-sort>tbody>tr"))
