@@ -243,44 +243,44 @@ namespace bank_parser
 
         private void addDepartamentsToDB(List<string> list) //Метод добавляющий отделения в бд
         {
-            
-            //try
-            //{
-                
+
+            try
+            {
+
                 str = "insert into Departament (NameD, AddressD, PhonesD, WorkTimeD, CloseTimeD, CityD, IndexB) values (N'" + list[0] + "', N'" + list[1] + "', N'" + list[2] + "', N'" + list[3] + "', N'" + list[4] + "', N'" + list[5] + "', N'" + getBankId(list[6]) + "')";
                 ExecuteQuery(str);
-                
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public string getBankId(string name) //получает индекс указанного банка из бд по имени
         {
             DataTable table = new DataTable();
-            //try
-            //{
+            try
+            {
                 using (SqlDataAdapter da = new SqlDataAdapter(@"SELECT IndexB FROM Bank where NameIdB like N'%" + name + "%'", sqlCon))
                 {
                     da.Fill(table);
                     name = table.Rows[0][0].ToString();
-                   
+
                 }
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             return name;
         }
 
         private void parsBankCurrency() //метод получающий валюту по банкам и добаляющий валюту в БД
         {
             List<string> curr = new List<string>();
-            //try
-            //{
+            try
+            {
                 using (var request = new HttpRequest())
                 {
                     for (int b = 0; b < banks.Count; b++)
@@ -298,8 +298,8 @@ namespace bank_parser
                             foreach (var row in item.QuerySelectorAll("td"))
                             {
                                 string str = row.InnerText;
-                            str = str.Replace("'", "''");
-                            curr.Add(str);
+                                str = str.Replace("'", "''");
+                                curr.Add(str);
                             }
                             curr.Add(banks[b].getNameId());
                             addCurrencyToDB(curr);
@@ -309,27 +309,27 @@ namespace bank_parser
                     }
 
                 }
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void addCurrencyToDB(List<string> list) //метод добаляющий валюту в бд
         {
 
-            //try
-            //{
+            try
+            {
 
                 str = "insert into Сurrency (NameCur, BuyCur, SellCur, NB_RB, UpdateTime, IndexB) values (N'" + list[0] + "', N'" + list[1] + "', N'" + list[2] + "', N'" + list[3] + "', N'" + list[4] + "', N'" + getBankId(list[5]) + "')";
                 ExecuteQuery(str);
 
-            //}
-            //catch (Exception e)
-            //{
-            //    MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void parsBankCreditsAndContribution(string type) //метод получающий кредиты и вклады по банкам и добавлющий -//- в бд
