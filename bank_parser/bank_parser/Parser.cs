@@ -65,6 +65,20 @@ namespace bank_parser
             }
         }
 
+        public void CloseSqlConnection() //подключение к бд
+        {
+            sqlCon = new SqlConnection(con);
+            try
+            {
+                sqlCon.Dispose();
+                sqlCon.Close();
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
         private void parsBanksNames() // Метод получающий список банков и добавляющий их в БД
         {            
             List<Functions.Bank> banks = new List<Functions.Bank>();
@@ -457,14 +471,16 @@ namespace bank_parser
 
         private void ExecuteQuery(string str) // метод который выполняет запрос на добавление в бд
         {
-            SqlCommand command = new SqlCommand(str, sqlCon);
-            try
+            using (SqlCommand command = new SqlCommand(str, sqlCon))
             {
-                command.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

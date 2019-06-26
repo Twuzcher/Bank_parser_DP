@@ -122,7 +122,7 @@ namespace bank_parser
 
         private void metroBack_Click(object sender, EventArgs e)
         {
-
+            parser.CloseSqlConnection();
             Close();
         }
 

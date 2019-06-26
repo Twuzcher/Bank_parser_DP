@@ -41,7 +41,7 @@
             this.metroButton1.Name = "metroButton1";
             this.metroButton1.Size = new System.Drawing.Size(242, 79);
             this.metroButton1.TabIndex = 0;
-            this.metroButton1.Text = "Приветствую! \r\nДобро пожаловать \r\nв приложение!";
+            this.metroButton1.Text = "Запуск!";
             this.metroButton1.UseSelectable = true;
             this.metroButton1.Click += new System.EventHandler(this.metroButton1_Click);
             // 
