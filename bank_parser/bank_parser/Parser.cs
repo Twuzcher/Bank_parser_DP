@@ -52,12 +52,12 @@ namespace bank_parser
 
         }
 
-        private async void SqlConnection() //подключение к бд
+        private void SqlConnection() //подключение к бд
         {
             sqlCon = new SqlConnection(con);
             //try
             //{
-                await sqlCon.OpenAsync();
+                sqlCon.Open();
             //}
             //catch (Exception e)
             //{
