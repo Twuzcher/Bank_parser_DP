@@ -23,7 +23,7 @@ namespace bank_parser
     class Parser
     {
         SqlConnection sqlCon;
-        string con = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\BankParserDB.mdf;Integrated Security=True";
+        string con = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\BankParserDB.mdf;Integrated Security=True;Connect Timeout=30";
         string str;
         List<Functions.Bank> banks;
         int banksCount;
@@ -55,14 +55,14 @@ namespace bank_parser
         private async void SqlConnection() //подключение к бд
         {
             sqlCon = new SqlConnection(con);
-            try
-            {
+            //try
+            //{
                 await sqlCon.OpenAsync();
-            }
-            catch (Exception e)
-            {
+            //}
+            //catch (Exception e)
+            //{
                 
-            }
+            //}
         }
 
         public void CloseSqlConnection() //подключение к бд
