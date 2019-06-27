@@ -31,6 +31,7 @@ namespace bank_parser
         public Parser()
         {
             SqlConnection();
+            ClearDataBase();
             banks = new List<Functions.Bank>();
             banksCount = getCountOfBankFromSite();
             parsBanksNames();
@@ -51,6 +52,24 @@ namespace bank_parser
             catch (Exception e)
             {
 
+            }
+        }
+
+        private void ClearDataBase()
+        {
+            try
+            {
+
+                str = "EXEC sys.sp_msforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL'";
+                ExecuteQuery(str);
+                str = "EXEC sys.sp_msforeachtable 'DELETE FROM ?'";
+                ExecuteQuery(str);
+                str = "EXEC sys.sp_MSForEachTable 'ALTER TABLE ? CHECK CONSTRAINT ALL'";
+                ExecuteQuery(str);
+            }
+            catch (Exception e)
+            {
+                //MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
