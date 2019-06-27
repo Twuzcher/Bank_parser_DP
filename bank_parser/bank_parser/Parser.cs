@@ -34,17 +34,6 @@ namespace bank_parser
             banks = new List<Functions.Bank>();
             banksCount = getCountOfBankFromSite();
             parsBanksNames();
-            //if (getCountOfBanks() != banksCount)
-            //{
-            //    while (true)
-            //    {
-            //        parsBanksNames();
-            //        if (getCountOfBanks() == banksCount)
-            //        {
-            //            break;
-            //        }
-            //    }
-            //}
             parsBanksDepartaments();
             parsBankCurrency();
             parsBankCreditsAndContribution("vklady");
@@ -55,14 +44,14 @@ namespace bank_parser
         private void SqlConnection() //подключение к бд
         {
             sqlCon = new SqlConnection(con);
-            //try
-            //{
+            try
+            {
                 sqlCon.Open();
-            //}
-            //catch (Exception e)
-            //{
-                
-            //}
+            }
+            catch (Exception e)
+            {
+
+            }
         }
 
         public void CloseSqlConnection() //подключение к бд
@@ -131,7 +120,7 @@ namespace bank_parser
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             try
             {
@@ -143,7 +132,7 @@ namespace bank_parser
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             this.banks = banks;
         }
@@ -251,7 +240,7 @@ namespace bank_parser
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 }
 
@@ -267,7 +256,7 @@ namespace bank_parser
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -285,7 +274,7 @@ namespace bank_parser
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return name;
         }
@@ -326,7 +315,7 @@ namespace bank_parser
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -342,7 +331,7 @@ namespace bank_parser
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -443,7 +432,7 @@ namespace bank_parser
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 }
 
@@ -465,7 +454,7 @@ namespace bank_parser
             }
             catch (Exception e)
             {
-             MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -479,7 +468,7 @@ namespace bank_parser
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
